@@ -2,15 +2,19 @@
 
 hcep-pdf is simple and fast pdf rendering server using Headless Chrome & Express & Puppeteer.
 
+
 ## Getting Started
 
+### Caution
+Since error control and security measures are minimum, please accept only reliable requests. It does not assume direct disclosure to the outside.
+
+
 ### Clone
-First git clone this repository.
+git clone this repository.
+
 
 ### (optionary) Install fonts
-As much as possible, we do not use WEB fonts,
-and if we put font files in the server,
-we can expect faster response.
+By default, fonts other than English are not installed, so if you convert pages in Japanese, Chinese or other languages, you will need to install a separate font file. Also, since it takes a long time for requesting and downloading and the response is delayed, we recommend that you install the font file in the server.
 
 
 ```
@@ -48,8 +52,6 @@ curl -sS http://localhost:8000 -v -d html=hcep-pdf-ok -o hcep-pdf-post.pdf
 ```
 
 ## Author
-
 uyamazak: https://github.com/uyamazak/
 
 blog: http://uyamazak.hatenablog.com/
-
