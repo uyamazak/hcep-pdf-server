@@ -1,4 +1,5 @@
 FROM node:9-slim
+LABEL maintainer="yu_yamazaki@bizocean.co.jp"
 
 RUN mkdir /varuna/
 WORKDIR /varuna/
