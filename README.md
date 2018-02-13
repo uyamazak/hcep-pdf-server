@@ -14,7 +14,7 @@ git clone this repository.
 
 
 ### (optionary) Install fonts
-By default, fonts other than English are not installed, so if you convert pages in Japanese, Chinese or other languages, you will need to install a separate font file. Also, since it takes a long time for requesting and downloading and the response is delayed, we recommend that you install the font file in the server.
+If you convert pages in Japanese, Chinese or other languages, you will need to install a separate font file. Also, you can use WEB fonts, but since it takes a long time for requesting and downloading them, we recommend that you install the font files in the server.
 
 
 ```
