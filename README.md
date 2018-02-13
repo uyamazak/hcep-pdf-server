@@ -1,6 +1,6 @@
-# hcep-pdf
+# hcep-pdf-server
 
-hcep-pdf is simple and fast pdf rendering server using Headless Chrome & Express & Puppeteer.
+hcep-pdf-server is simple and fast rendering PDF server using Headless Chrome & Express & Puppeteer.
 
 
 ## Getting Started
@@ -24,7 +24,7 @@ cp AnyFonts.ttf ./fonts/
 ### Build
 
 ```
-sudo docker build -t hcep-pdf:latest .
+sudo docker build -t hcep-pdf-server:latest .
 ```
 
 ### Run
@@ -34,7 +34,7 @@ Below example, run with 8000 port.
 sudo docker run -it --rm \
     -p 8000:8000 \
     --name hcep-pdf \
-    hcep-pdf:latest
+    hcep-pdf-server:latest
 ```
 
 ## Example
