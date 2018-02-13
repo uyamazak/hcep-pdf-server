@@ -1,22 +1,21 @@
 # hcep-pdf-server
 
-hcep-pdf-server is simple and fast rendering PDF server using Headless Chrome & Express & Puppeteer.
-
+Simple and fast PDF rendering server using Headless Chrome & Express & Puppeteer.
 
 Headless Chrome
 <https://developers.google.com/web/updates/2017/04/headless-chrome>
 
-Puppeteer
-<https://github.com/GoogleChrome/puppeteer>
-
 Express
 <http://expressjs.com/>
+
+Puppeteer
+<https://github.com/GoogleChrome/puppeteer>
 
 
 ## Getting Started
 
 ### Caution
-Since error control and security measures are minimum, please accept only reliable requests. It does not assume direct disclosure to the outside.
+Since this product is supposed to be used within local network (like Kubernetes, Google Kubernetes Engine), error control and security measures are minimum, please accept only reliable requests. It does not assume direct disclosure to the outside.
 
 
 ### Clone
@@ -24,7 +23,7 @@ git clone this repository.
 
 
 ### (optionary) Install fonts
-If you convert pages in Japanese, Chinese or languages other than English, you will need to install a separate font file. Also, you can use WEB fonts, but since it takes a long time for requesting and downloading them, we recommend that install the font files in the server.
+If you convert pages in Japanese, Chinese or languages other than English, you will need to install each font files. Also, you can use WEB fonts, but since it takes a long time for requesting and downloading them, we recommend that install the font files in the server.
 
 
 ```
@@ -63,11 +62,12 @@ curl "http://localhost:8000?url=http://example.com" -o hcep-pdf-get.pdf
 curl -sS http://localhost:8000 -v -d html=hcep-pdf-ok -o hcep-pdf-post.pdf
 ```
 
-Please note that when sending html in POST method, you can not use a relative path because the page does not have a URL.
+Please note that because the page does not have a URL, when sending html in POST method, you can not use a relative path.
 
-So, you need to include external files with absolute URL.
+So, you need to include external files with domain.
 
 Bad, not working
+
 ```
 <link href="/static/style.css" rel="stylesheet">
 ```
@@ -82,6 +82,7 @@ OK
 You can customize PDF with options. Read the puppeteer API's docs.
 
 <https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#pagepdfoptions>
+
 
 ## Author
 uyamazak: https://github.com/uyamazak/
