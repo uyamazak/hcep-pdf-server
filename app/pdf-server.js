@@ -46,8 +46,8 @@
 
   /**
    * Receive get request with target page's url
-   * @param url {String} page's url
-   * @return binary of PDF or error response
+   * @req.query.url {String} page's url
+   * @return binary of PDF data or error response
    */
   app.get('/', async (req, res) => {
     //PDF from url
@@ -82,8 +82,8 @@
 
   /**
    * Receive post request with target html
-   * @param url {String} page's html content
-   * @return binary of PDF or error response
+   * @req.body.html {String} page's html content
+   * @return binary of PDF data or error response
    */
   app.post('/', async (req, res) => {
     // PDF from html
@@ -115,7 +115,9 @@
     }
   });
 
-  // Health Check
+  /**
+   * Health Check and show Chrome version in header
+   */
   app.get('/hc', function (req, res) {
     console.log('health check ok');
     res.status(200);
@@ -123,6 +125,9 @@
     res.end('ok');
   });
 
+  /**
+   * Close browser with exit signal.
+   */
   process.on('SIGINT', async function() {
     await browser.close();
     console.log('complete browser.close()');
