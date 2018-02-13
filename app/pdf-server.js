@@ -24,7 +24,8 @@
   const pageTimeoutMsec = 10000;
   // launch browser and page only once
   const browser = await puppeteer.launch(launchOptions);
-  console.log("chrome version:", await browser.version());
+  const chromeVersion = await browser.version();
+  console.log("chrome version: ", chromeVersion);
   const page = await browser.newPage();
 
   /**
@@ -117,8 +118,8 @@
   // Health Check
   app.get('/hc', function (req, res) {
     console.log('health check ok');
-    res.setHeader( 'X-Chrome-Version', chromeVersion);
     res.status(200);
+    res.setHeader( 'X-Chrome-Version', chromeVersion);
     res.end('ok');
   });
 
