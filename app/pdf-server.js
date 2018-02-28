@@ -25,8 +25,9 @@
   // launch browser and page only once
   const browser = await puppeteer.launch(launchOptions);
   const chromeVersion = await browser.version();
-  console.log("chrome version: ", chromeVersion);
+  console.log("chromeVersion: ", chromeVersion);
   const page = await browser.newPage();
+
 
   /**
    * express settings
@@ -40,17 +41,18 @@
   const appTimeoutMsec = 30000;
   app.use(timeout(appTimeoutMsec));
 
+
   app.listen(8000, function(){
     console.log('Listening on 8000');
   });
 
+
   /**
    * Receive get request with target page's url
    * @req.query.url {String} page's url
-   * @return binary of PDF data or error response
+   * @return binary of PDF or error response
    */
   app.get('/', async (req, res) => {
-    //PDF from url
     const url = req.query.url;
     if (! url) {
       res.status(400);
@@ -77,16 +79,15 @@
       res.status(503);
       res.end();
     }
-
   });
+
 
   /**
    * Receive post request with target html
    * @req.body.html {String} page's html content
-   * @return binary of PDF data or error response
+   * @return binary of PDF or error response
    */
   app.post('/', async (req, res) => {
-    // PDF from html
     const html = req.body.html;
     if (! html) {
       res.status(400);
@@ -95,25 +96,20 @@
     }
     try{
       console.time('PDF_FROM_CONTENT');
-      await page.goto(
-        `data:text/html,${html}`,
-        {
-          timeout: pageTimeoutMsec,
-          waitUntil:["load", "domcontentloaded"]
-        }
-      );
+      await page.setContent(html)
       const buff = await page.pdf(pdfOptions);
       console.timeEnd('PDF_FROM_CONTENT');
-      res.status(200);
-      res.contentType("application/pdf");
-      res.send(buff);
-      res.end();
+      await res.status(200);
+      await res.contentType("application/pdf");
+      await res.send(buff);
+      await res.end();
     } catch(e) {
       console.log(e);
       res.status(503);
       res.end();
     }
   });
+
 
   /**
    * Health Check and show Chrome version in header
@@ -125,6 +121,7 @@
     res.end('ok');
   });
 
+
   /**
    * Close browser with exit signal.
    */
@@ -135,4 +132,3 @@
     await process.exit();
   });
 })();
-
