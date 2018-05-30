@@ -20,7 +20,7 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
 
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 
-RUN npm install \
+RUN npm install --save \
     puppeteer \
     express \
     connect-timeout \
@@ -28,10 +28,11 @@ RUN npm install \
 
 # COPY my app dir
 COPY app app
-RUN chmod -R 777 /varuna/app/
-
-RUN useradd chromeuser -s /bin/bash -m -g root -u 10000
-USER chromeuser
+RUN chmod -R 777 app/pdf-server.js
 
 EXPOSE 8000
+
+RUN useradd chromeuser -s /bin/bash -m -u 10000
+USER chromeuser
+
 CMD ["node", "app/pdf-server.js"]
