@@ -20,7 +20,8 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
 
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 
-RUN npm install --save \
+RUN npm install \
+    npm \
     puppeteer \
     express \
     connect-timeout \
@@ -28,7 +29,7 @@ RUN npm install --save \
 
 # COPY my app dir
 COPY app app
-RUN chmod -R 777 app/pdf-server.js
+RUN chmod -R 777 /varuna/app
 
 EXPOSE 8000
 
