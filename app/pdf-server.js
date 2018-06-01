@@ -94,7 +94,6 @@
           waitUntil: ["load", "domcontentloaded"]
         }
       )
-      let getPdfOption
       const buff = await page.pdf(getPdfOption(req.query.pdf_option))
       console.timeEnd('PDF_FROM_URL')
       res.status(200)
