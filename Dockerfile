@@ -1,8 +1,8 @@
 FROM node:9-slim
 LABEL maintainer="yu_yamazaki@bizocean.co.jp"
 
-RUN mkdir /varuna/
-WORKDIR /varuna/
+RUN mkdir /hcep/
+WORKDIR /hcep/
 
 # Install fonts
 COPY fonts /usr/share/fonts
@@ -20,16 +20,12 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
 
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 
-RUN npm install \
-    npm \
-    puppeteer \
-    express \
-    connect-timeout \
-    body-parser
+COPY package.json /hcep/
+RUN npm install
 
 # COPY my app dir
 COPY app app
-RUN chmod -R 777 /varuna/app
+RUN chmod -R 777 /hcep/app
 
 EXPOSE 8000
 

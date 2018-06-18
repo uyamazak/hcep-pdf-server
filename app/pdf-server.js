@@ -5,11 +5,15 @@
   const puppeteer = require('puppeteer')
   const defaultMargin = '18mm'
   const defaultPdfOptionKey = 'A4'
+  /**
+   * PdfOption more detail
+   * https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#pagepdfoptions
+   */
   class PdfOption {
     constructor(options) {
       this.format = options.format
       this.landscape = options.landscape || false
-      this.printBackground = options.printBackground || true
+      this.printBackground = typeof printBackground !== 'undefined'? printBackground : true
       this.displayHeaderFooter = options.displayHeaderFooter || false
       this.margin = {
         top: options.marginTop || options.margin || defaultMargin,
