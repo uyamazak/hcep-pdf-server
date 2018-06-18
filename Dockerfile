@@ -19,8 +19,10 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
     && rm -rf /src/*.deb
 
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
+ENV NODE_ENV production
 
 COPY package.json /hcep/
+RUN npm install -u npm
 RUN npm install
 
 # COPY my app dir
