@@ -113,9 +113,11 @@ You can customize PDF with options. Read the puppeteer API's docs.
 
 <https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#pagepdfoptions>
 
-## Runing on Google App Engine (beta)
+## Running on Google App Engine (beta)
 You can run Google App Engine
-`gcloud app deploy --project your-project`
+```
+gcloud app deploy --project your-project
+```
 Please use app.yaml and edit it for your purpose.
 
 More detail:
