@@ -1,4 +1,4 @@
-FROM node:9-slim
+FROM node:10-slim
 LABEL maintainer="yu_yamazaki@bizocean.co.jp"
 
 RUN mkdir /hcep/
@@ -18,7 +18,14 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /src/*.deb
 
+# Use installed Chrome instead of default Chromium
+# There is no big difference, but in order to bring the environment closer to Chrome normally used
+
+ENV CHROME_BINARY /usr/bin/google-chrome
+
+# if HCEP_USE_CHROMIUM set false
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
+
 ENV NODE_ENV production
 
 COPY package.json /hcep/
@@ -34,4 +41,4 @@ EXPOSE 8000
 RUN useradd chromeuser -s /bin/bash -m -u 10000
 USER chromeuser
 
-CMD ["node", "app/pdf-server.js"]
+CMD ["node", "app/pdfServer.js"]

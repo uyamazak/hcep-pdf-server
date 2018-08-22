@@ -1,71 +1,43 @@
-(async function () {
-  /**
-   * puppeteer settings
-   */
+(async () => {
   const puppeteer = require('puppeteer')
-  const debug = require('debug')('hcep')
-  const defaultMargin = '18mm'
-  const defaultPdfOptionKey = 'A4'
-  /**
-   * PdfOption more detail
-   * https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#pagepdfoptions
-   */
-  class PdfOption {
-    constructor(options) {
-      this.format = options.format
-      this.landscape = options.landscape || false
-      this.printBackground = typeof options.printBackground !== 'undefined' ? options.printBackground : true
-      this.displayHeaderFooter = options.displayHeaderFooter || false
-      this.margin = {
-        top: options.marginTop || options.margin || defaultMargin,
-        right: options.marginRight || options.margin || defaultMargin,
-        bottom: options.marginBottom || options.margin || defaultMargin,
-        left: options.marginLeft || options.margin || defaultMargin
-      }
-    }
-  }
-  const pdfOptions = {
-    'A3': new PdfOption({'format': 'A3'}),
-    'A3Full': new PdfOption({'format': 'A3', margin: '0mm'}),
-    'A3Landscape': new PdfOption({'format': 'A3', landscape: true, margin: '0mm'}),
-    'A3LandscapeFull': new PdfOption({'format': 'A3', landscape: true}),
-    'A4': new PdfOption({'format': 'A4'}),
-    'A4Full': new PdfOption({'format': 'A4', margin: '0mm'}),
-    'A4Landscape': new PdfOption({'format': 'A4', landscape: true}),
-    'A4LandscapeFull': new PdfOption({'format': 'A4', landscape: true, margin: '0mm'})
-  }
+  const express = require('express')
+  const morgan = require('morgan')
+  const timeout = require('connect-timeout')
+  const bodyParser = require('body-parser')
+  const debug = require('debug')('hcepPdfServer')
+  const { getPdfOption } = require('./pdfOption')
 
-  const getPdfOption = function (key) {
-    if (!key) {
-      debug('use defaultPdfOption:', defaultPdfOptionKey)
-      return pdfOptions[defaultPdfOptionKey]
-    }
-    if (key in pdfOptions) {
-      debug('use pdfOption', key)
-      return pdfOptions[key]
+  const chromeBinary = process.env.HCEP_CHROME_BINARY || '/usr/bin/google-chrome'
+  const appTimeoutMsec = process.env.HCEP_APP_TIMEOUT_MSEC || 30000
+  const pageTimeoutMsec = process.env.HCEP_PAGE_TIMEOUT_MSEC || 10000
+  const listenPort = process.env.HCEP_PORT || 8000
+  const useChromium = (value => {
+    if (value === 'true') {
+      return true
     } else {
-      console.error('key', key, ' is not exists in pdfOptions')
-      return pdfOptions[defaultPdfOptionKey]
+      return false
     }
-  }
-  const chromeBinary = '/usr/bin/google-chrome'
-  const launchOptions = {
-    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu'],
-    executablePath: chromeBinary,
-  }
-  const pageTimeoutMsec = 10000
+  })(process.env.HCEP_USE_CHROMIUM)
+  const launchOptions = (useChromium => {
+    let options = {
+      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu'],
+    }
+    if (!useChromium) {
+      options['executablePath'] = chromeBinary
+      console.log("chromeBinary:", chromeBinary)
+    }
+    return options
+  })(useChromium)
 
   // launch browser and page only once
   const browser = await puppeteer.launch(launchOptions)
   const chromeVersion = await browser.version()
-  console.log("chromeVersion: ", chromeVersion)
   const page = await browser.newPage()
-
+  console.log("chromeVersion:", chromeVersion)
+  console.log('useChromium:', useChromium)
   /**
    * express settings
    */
-  const express = require('express')
-  const morgan = require('morgan')
   const app = express()
   const env = app.get('env')
   console.log('env:', env)
@@ -75,15 +47,10 @@
     app.use(morgan('dev'))
   }
 
-  const bodyParser = require('body-parser')
-  app.use(bodyParser.urlencoded({extended: false, limit: '10mb'}))
-
-  const timeout = require('connect-timeout')
-  const appTimeoutMsec = 30000
+  app.use(bodyParser.urlencoded({ extended: false, limit: '10mb' }))
   app.use(timeout(appTimeoutMsec))
-
-  app.listen(8000, function () {
-    console.log('Listening on: 8000')
+  app.listen(listenPort, () => {
+    console.log('Listening on:', listenPort)
   })
 
   /**
@@ -159,7 +126,7 @@
     }
     try {
       await page.setContent(html)
-      const buff = await page.screenshot({fullPage: true})
+      const buff = await page.screenshot({ fullPage: true })
       await res.status(200)
       await res.contentType("image/png")
       await res.send(buff)
@@ -184,7 +151,7 @@
   /**
    * Close browser with exit signal.
    */
-  process.on('SIGINT', async function () {
+  process.on('SIGINT', async () => {
     await browser.close()
     console.log('complete browser.close()')
     console.log('process exit with SIGINT')

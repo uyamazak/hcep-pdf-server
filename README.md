@@ -78,6 +78,35 @@ OK
 <link href="http://example.com/static/style.css" rel="stylesheet">
 ```
 
+## Env variables
+### HCEP_USE_CHROMIUM
+Whether to use chromium attached to puppeteer.
+"true" or "false"
+
+default: false (use Chrome)
+
+### HCEP_CHROME_BINARY
+default: /usr/bin/google-chrome
+
+### HCEP_APP_TIMEOUT_MSEC 30000
+Timeout milliseconds of express app
+default: 30000
+
+### HCEP_PAGE_TIMEOUT_MSEC
+Timeout milliseconds of browser's Page
+default: 10000
+
+### HCEP_PORT
+Listen Port by express app
+default: 8000
+
+### HCEP_DEFAULT_MARGIN
+default: 18mm
+
+### HCEP_PDF_OPTION_KEY
+default A4
+
+
 ## Customize PDF options
 You can customize PDF with options. Read the puppeteer API's docs.
 
