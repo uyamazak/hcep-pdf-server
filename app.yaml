@@ -1,0 +1,10 @@
+runtime: nodejs8
+instance_class: F4_1G
+automatic_scaling:
+  max_instances: 4
+  min_instances: 0
+  target_cpu_utilization: 0.75
+env_variables:
+  FONTCONFIG_PATH: "/srv/fonts/"
+  HCEP_USE_CHROMIUM: "true"
+  HCEP_PORT: 8080

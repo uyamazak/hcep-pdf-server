@@ -11,7 +11,6 @@ Express
 Puppeteer
 <https://github.com/GoogleChrome/puppeteer>
 
-
 ## Getting Started
 
 ### Caution
@@ -81,23 +80,25 @@ OK
 ## Env variables
 ### HCEP_USE_CHROMIUM
 Whether to use chromium attached to puppeteer.
-"true" or "false"
+If you want to run this on Google App Engine, you must set it to "true".
 
 default: false (use Chrome)
 
 ### HCEP_CHROME_BINARY
+The path of installed google-chrome binary.
+If HCEP_USE_CHROMIUM is true, this value is ignored
 default: /usr/bin/google-chrome
 
-### HCEP_APP_TIMEOUT_MSEC 30000
-Timeout milliseconds of express app
+### HCEP_APP_TIMEOUT_MSEC
+Timeout milliseconds of the express app
 default: 30000
 
 ### HCEP_PAGE_TIMEOUT_MSEC
-Timeout milliseconds of browser's Page
+Timeout milliseconds of the browser's Page
 default: 10000
 
 ### HCEP_PORT
-Listen Port by express app
+Listen Port by the express app
 default: 8000
 
 ### HCEP_DEFAULT_MARGIN
@@ -112,8 +113,19 @@ You can customize PDF with options. Read the puppeteer API's docs.
 
 <https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#pagepdfoptions>
 
+## Runing on Google App Engine (beta)
+You can run Google App Engine
+`gcloud app deploy --project your-project`
+Please use app.yaml and edit it for your purpose.
+
+More detail:
+https://cloud.google.com/appengine/docs/standard/nodejs/using-headless-chrome-with-puppeteer
 
 ## Author
 uyamazak: https://github.com/uyamazak/
-
 blog: http://uyamazak.hatenablog.com/
+
+This project has been maintained under the support of yagish履歴書 and is actually used for PDF generation.
+
+### yagish履歴書( bizocean co.,Ltd )
+https://rirekisho.yagish.jp/
