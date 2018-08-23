@@ -18,10 +18,10 @@
       return false
     }
   })(process.env.HCEP_USE_CHROMIUM)
-  
+
   const launchOptions = (useChromium => {
     let options = {
-      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu'],
+      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu']
     }
     if (!useChromium) {
       options['executablePath'] = chromeBinary

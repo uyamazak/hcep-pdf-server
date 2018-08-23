@@ -1,8 +1,4 @@
 const debug = require('debug')('hcepPdfOptions')
-/**
- * PdfOption more detail
- * https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#pagepdfoptions
- */
 const defaultMargin = process.env.HCEP_DEFAULT_MARGIN || '18mm'
 const defaultPdfOptionKey = process.env.HCEP_PDF_OPTION_KEY || 'A4'
 /**
@@ -34,7 +30,7 @@ const pdfOptions = {
   'A4LandscapeFull': new PdfOption({ 'format': 'A4', landscape: true, margin: '0mm' })
 }
 
-const getPdfOption = function(key) {
+const getPdfOption = function (key) {
   if (!key) {
     debug('use defaultPdfOption:', defaultPdfOptionKey)
     return pdfOptions[defaultPdfOptionKey]
@@ -48,7 +44,7 @@ const getPdfOption = function(key) {
   }
 }
 module.exports = {
-  PdfOption : PdfOption,
-  getPdfOption : getPdfOption,
-  pdfOptions : pdfOptions
+  PdfOption: PdfOption,
+  getPdfOption: getPdfOption,
+  pdfOptions: pdfOptions
 }
