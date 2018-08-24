@@ -25,7 +25,7 @@
     }
     if (!useChromium) {
       options['executablePath'] = chromeBinary
-      console.log("chromeBinary:", chromeBinary)
+      console.log("use chromeBinary:", chromeBinary)
     }
     return options
   })(useChromium)
@@ -58,7 +58,7 @@
    * Receive get request with target page's url
    * @req.query.url {String} page's url
    * @req.query.pdf_option {String} a key of pdfOptions
-   * @return binary of PDF or error response
+   * @return binary of PDF or error response (400 or 500)
    */
   app.get('/', async (req, res) => {
     const url = req.query.url
@@ -81,7 +81,7 @@
       res.end()
     } catch (e) {
       await console.log(e)
-      await res.status(503)
+      await res.status(500)
       res.end()
     }
   })
@@ -90,7 +90,7 @@
    * Receive post request with target html
    * @req.body.html {String} page's html content
    * @req.body.pdf_option {String} a key of pdfOptions
-   * @return binary of PDF or error response
+   * @return binary of PDF or error response (400 or 500)
    */
   app.post('/', async (req, res) => {
     const html = req.body.html
@@ -108,7 +108,7 @@
       res.end()
     } catch (e) {
       console.log(e)
-      await res.status(503)
+      await res.status(500)
       res.end()
     }
   })
@@ -116,7 +116,7 @@
   /**
    * Receive post request with target html
    * @req.body.html {String} page's html content
-   * @return binary of PNG or error response
+   * @return binary of PNG or error response (400 or 500)
    */
   app.post('/screenshot', async (req, res) => {
     const html = req.body.html
@@ -134,7 +134,7 @@
       await res.end()
     } catch (e) {
       console.log(e)
-      await res.status(503)
+      await res.status(500)
       res.end()
     }
   })
