@@ -1,7 +1,7 @@
 runtime: nodejs8
-instance_class: F4_1G
+instance_class: F2
 automatic_scaling:
-  max_instances: 10
+  max_instances: 5
   min_instances: 0
   target_cpu_utilization: 0.75
 env_variables:
