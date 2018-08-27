@@ -135,7 +135,7 @@ default: 30000
 Timeout milliseconds of the browser's Page
 default: 10000
 
-**HCEP_MAX_REQUIEST_SIZE**
+**HCEP_MAX_REQUEST_SIZE**
 default: 10mb
 
 **HCEP_PORT**

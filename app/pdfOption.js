@@ -9,7 +9,7 @@ class PdfOption {
   constructor(options) {
     this.format = options.format
     this.landscape = options.landscape || false
-    this.printBackground = typeof options.printBackground !== 'undefined' ? options.printBackground : true
+    this.printBackground = (options.printBackground === undefined) ? false : options.printBackground
     this.displayHeaderFooter = options.displayHeaderFooter || false
     this.margin = {
       top: options.marginTop || options.margin || defaultMargin,
@@ -31,21 +31,24 @@ const pdfOptions = {
   'A4LandscapeFull': new PdfOption({ 'format': 'A4', landscape: true, margin: '0mm' })
 }
 
-const getPdfOption = function (key) {
+const getPdfOption = function (key, options) {
+  options = options || pdfOptions
+  console.log(options)
   if (!key) {
     debug('use defaultPdfOption:', defaultPdfOptionKey)
-    return pdfOptions[defaultPdfOptionKey]
+    return options[defaultPdfOptionKey]
   }
-  if (key in pdfOptions) {
+  if (key in options) {
     debug('use pdfOption', key)
-    return pdfOptions[key]
+    return options[key]
   } else {
     console.error('key', key, ' is not exists in pdfOptions')
-    return pdfOptions[defaultPdfOptionKey]
+    return options[defaultPdfOptionKey]
   }
 }
+
 module.exports = {
   PdfOption: PdfOption,
-  getPdfOption: getPdfOption,
-  pdfOptions: pdfOptions
+  pdfOptions: pdfOptions,
+  getPdfOption: getPdfOption
 }
