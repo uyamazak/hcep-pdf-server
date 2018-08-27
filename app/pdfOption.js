@@ -19,6 +19,7 @@ class PdfOption {
     }
   }
 }
+
 const pdfOptions = {
   'A3': new PdfOption({ 'format': 'A3' }),
   'A3Full': new PdfOption({ 'format': 'A3', margin: '0mm' }),

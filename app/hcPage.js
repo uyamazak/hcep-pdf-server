@@ -23,7 +23,7 @@ const hcPage = async () => {
   // launch browser and page only once
   const browser = await puppeteer.launch(launchOptions)
   const chromeVersion = await browser.version()
-  const page = await browser.newPage()
+  const page = browser.newPage()
   console.log("chromeVersion:", chromeVersion)
   console.log('useChromium:', useChromium)
 
@@ -32,9 +32,9 @@ const hcPage = async () => {
    * Close browser with exit signal.
    */
   process.on('SIGINT', async () => {
-    await browser.close()
     console.log('complete browser.close()')
     console.log('process exit with SIGINT')
+    await browser.close()
     await process.exit()
   })
   return page

@@ -16,7 +16,7 @@ Using Headless Chrome & Express & Puppeteer.
 <https://github.com/GoogleChrome/puppeteer>
 
 ## Running on Google App Engine Supported (beta)
-You can also run this on Google App Engine, instead of Docker container.
+Instead of Docker container, You can also run this on Google App Engine.
 Please use app.yaml and edit it for your purpose.
 
 ```
@@ -36,7 +36,7 @@ Since this product is supposed to be used within local network (like Kubernetes,
 git clone this repository.
 
 
-### (optionary) Install fonts
+### Install fonts (optionary)
 If you convert pages in Japanese, Chinese or languages other than English, you will need to install each font files. Also, you can use WEB fonts, but since it takes a long time for requesting and downloading them, we recommend that install the font files in the server.
 
 
@@ -92,12 +92,35 @@ OK
 <link href="http://example.com/static/style.css" rel="stylesheet">
 ```
 
+## Test
+Execute the mocha command with the container run with the above command.
+
+```
+% sudo docker exec varuna-hcep-pdf-server mocha
+SERVER_URL: http://localhost:8000
+TAREGT_URL: https://www.google.com
+HTML_TEST_STRINGS: <html>ok</html>
+
+
+  requests routes
+    ✓ Health Check GET /hc
+    ✓ GET / with no url
+    ✓ GET / with url https://www.google.com (262ms)
+    ✓ POST / html=<html>ok</html>
+    ✓ GET /screenshot with url https://www.google.com (245ms)
+    ✓ POST /screenshot html=<html>ok</html> (82ms)
+
+
+  6 passing (621ms)
+
+```
+
 ## Env variables
 **HCEP_USE_CHROMIUM**
 Whether to use chromium attached to puppeteer.
 If you want to run this on Google App Engine, you must set it to "true".
 
-default: false (use Chrome)
+default: false (use installed Chrome)
 
 **HCEP_CHROME_BINARY**
 The path of installed google-chrome binary.
@@ -112,6 +135,9 @@ default: 30000
 Timeout milliseconds of the browser's Page
 default: 10000
 
+**HCEP_MAX_REQUIEST_SIZE**
+default: 10mb
+
 **HCEP_PORT**
 Listen Port by the express app
 default: 8000
@@ -120,8 +146,13 @@ default: 8000
 default: 18mm
 
 **HCEP_PDF_OPTION_KEY**
-default A4
+default: A4
 
+**HCEP_TEST_SERVER_URL**
+default: 'http://localhost:8000'
+
+**HCEP_TEST_TAREGT_URL**
+default: 'https://www.google.com'
 
 ## Customize PDF options
 You can customize PDF with options. Read the puppeteer API's docs.

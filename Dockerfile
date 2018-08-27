@@ -1,8 +1,6 @@
 FROM node:10-slim
 LABEL maintainer="yu_yamazaki@bizocean.co.jp"
 
-RUN mkdir /hcep/
-WORKDIR /hcep/
 
 # Install fonts
 COPY fonts /usr/share/fonts
@@ -28,12 +26,15 @@ ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 
 ENV NODE_ENV production
 
+RUN mkdir /hcep/
+COPY app /hcep/app
 COPY package.json /hcep/
-RUN npm install -u npm
-RUN npm install
+WORKDIR /hcep/
 
-# COPY my app dir
-COPY app app
+RUN npm install -u npm && \
+    npm install -g mocha && \
+    npm install
+
 RUN chmod -R 777 /hcep/app
 
 EXPOSE 8000
