@@ -6,13 +6,13 @@ GET URL or POST HTML returns PDF binary.
 
 Using Headless Chrome & Express & Puppeteer.
 
-**Headless Chrome**
+### Headless Chrome
 <https://developers.google.com/web/updates/2017/04/headless-chrome>
 
-**Express**
+### Express
 <http://expressjs.com/>
 
-**Puppeteer**
+### Puppeteer
 <https://github.com/GoogleChrome/puppeteer>
 
 ## Running on Google App Engine Supported (beta)
@@ -93,7 +93,7 @@ OK
 ```
 
 ## Test
-Execute the mocha command with the container run with the above command.
+Execute mocha in the container run with the above command.
 
 ```
 % sudo docker exec varuna-hcep-pdf-server mocha
@@ -116,42 +116,42 @@ HTML_TEST_STRINGS: <html>ok</html>
 ```
 
 ## Env variables
-**HCEP_USE_CHROMIUM**
+### HCEP_USE_CHROMIUM
 Whether to use chromium attached to puppeteer.
 If you want to run this on Google App Engine, you must set it to "true".
 
 default: false (use installed Chrome)
 
-**HCEP_CHROME_BINARY**
+### HCEP_CHROME_BINARY
 The path of installed google-chrome binary.
 If HCEP_USE_CHROMIUM is true, this value is ignored
 default: /usr/bin/google-chrome
 
-**HCEP_APP_TIMEOUT_MSEC**
+### HCEP_APP_TIMEOUT_MSEC
 Timeout milliseconds of the express app
 default: 30000
 
-**HCEP_PAGE_TIMEOUT_MSEC**
+### HCEP_PAGE_TIMEOUT_MSEC
 Timeout milliseconds of the browser's Page
 default: 10000
 
-**HCEP_MAX_REQUEST_SIZE**
+### HCEP_MAX_REQUEST_SIZE
 default: 10mb
 
-**HCEP_PORT**
+### HCEP_PORT
 Listen Port by the express app
 default: 8000
 
-**HCEP_DEFAULT_MARGIN**
+### HCEP_DEFAULT_MARGIN
 default: 18mm
 
-**HCEP_PDF_OPTION_KEY**
+### HCEP_PDF_OPTION_KEY
 default: A4
 
-**HCEP_TEST_SERVER_URL**
+### HCEP_TEST_SERVER_URL
 default: 'http://localhost:8000'
 
-**HCEP_TEST_TAREGT_URL**
+### HCEP_TEST_TAREGT_URL
 default: 'https://www.google.com'
 
 ## Customize PDF options

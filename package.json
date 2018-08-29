@@ -18,7 +18,8 @@
   "devDependencies": {
   },
   "scripts": {
-    "start": "node app/pdfServer.js"
+    "start": "node app/pdfServer.js",
+    "test": "mocha"
   },
   "repository": {
     "type": "git",

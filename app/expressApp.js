@@ -9,7 +9,7 @@ const expressApp = (page) => {
   const pageTimeoutMsec = process.env.HCEP_PAGE_TIMEOUT_MSEC || 10000
   const listenPort = process.env.HCEP_PORT || 8000
   /* bytes or string for https://www.npmjs.com/package/bytes */
-  const maxRquestSize = process.env.HCEP_MAX_REQUIEST_SIZE || '10mb'
+  const maxRquestSize = process.env.HCEP_MAX_REQUEST_SIZE || '10mb'
 
   const app = express()
   const env = app.get('env')
@@ -28,9 +28,9 @@ const expressApp = (page) => {
 
   /**
    * get()
-   *  Receive get request with target page's url
-   *  @req.query.url {String} page's url
-   *  @req.query.pdf_option {String} a key of pdfOptions
+   * Receive get request with target page's url
+   * @req.query.url {String} page's url
+   * @req.query.pdf_option {String} a key of pdfOptions
    * @return binary of PDF or error response (400 or 500)
    */
   app.route('/')

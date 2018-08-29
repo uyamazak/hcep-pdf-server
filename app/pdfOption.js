@@ -33,7 +33,6 @@ const pdfOptions = {
 
 const getPdfOption = function (key, options) {
   options = options || pdfOptions
-  console.log(options)
   if (!key) {
     debug('use defaultPdfOption:', defaultPdfOptionKey)
     return options[defaultPdfOptionKey]
