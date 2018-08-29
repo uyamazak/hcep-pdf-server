@@ -1,10 +1,10 @@
 # hcep-pdf-server
 
-Simple and fast PDF rendering server.
+Simple and fast PDF rendering server. Using Headless Chrome & Express & Puppeteer.
 
 GET URL or POST HTML returns PDF binary.
 
-Using Headless Chrome & Express & Puppeteer.
+You can run this on Docker container, Kubernetes(GKE), or Google App Engine(beta).
 
 ### Headless Chrome
 <https://developers.google.com/web/updates/2017/04/headless-chrome>
@@ -29,7 +29,7 @@ https://cloud.google.com/appengine/docs/standard/nodejs/using-headless-chrome-wi
 ## Getting Started
 
 ### Caution
-Since this product is supposed to be used within local network (like Kubernetes, Google Kubernetes Engine), error control and security measures are minimum, please accept only reliable requests. It does not assume direct disclosure to the outside.
+Since this product is supposed to be used within local network (like Kubernetes, GKE), error control and security measures are minimum, please accept only reliable requests. It does not assume direct disclosure to the outside.
 
 
 ### Clone
@@ -116,42 +116,51 @@ HTML_TEST_STRINGS: <html>ok</html>
 ```
 
 ## Env variables
-### HCEP_USE_CHROMIUM
+
+### Browser settings
+#### HCEP_USE_CHROMIUM
 Whether to use chromium attached to puppeteer.
 If you want to run this on Google App Engine, you must set it to "true".
 
-default: false (use installed Chrome)
+default: false (use installed Chrome by Dockerfile)
 
-### HCEP_CHROME_BINARY
+#### HCEP_CHROME_BINARY
 The path of installed google-chrome binary.
 If HCEP_USE_CHROMIUM is true, this value is ignored
+
 default: /usr/bin/google-chrome
 
-### HCEP_APP_TIMEOUT_MSEC
-Timeout milliseconds of the express app
-default: 30000
-
-### HCEP_PAGE_TIMEOUT_MSEC
+#### HCEP_PAGE_TIMEOUT_MSEC
 Timeout milliseconds of the browser's Page
 default: 10000
 
-### HCEP_MAX_REQUEST_SIZE
-default: 10mb
-
-### HCEP_PORT
+### Server settings
+#### HCEP_PORT
 Listen Port by the express app
+
 default: 8000
 
-### HCEP_DEFAULT_MARGIN
+#### HCEP_APP_TIMEOUT_MSEC
+Timeout milliseconds of the express app
+
+default: 30000
+
+#### HCEP_MAX_REQUEST_SIZE
+default: 10mb
+
+
+### PDF settings
+#### HCEP_PDF_DEFAULT_MARGIN
 default: 18mm
 
-### HCEP_PDF_OPTION_KEY
+#### HCEP_PDF_OPTION_KEY
 default: A4
 
-### HCEP_TEST_SERVER_URL
+### Test settings
+#### HCEP_TEST_SERVER_URL
 default: 'http://localhost:8000'
 
-### HCEP_TEST_TAREGT_URL
+#### HCEP_TEST_TAREGT_URL
 default: 'https://www.google.com'
 
 ## Customize PDF options
