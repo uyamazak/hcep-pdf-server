@@ -8,6 +8,7 @@
     "chai": "^4.1.2",
     "connect-timeout": "^1.9.0",
     "debug": "^3.1.0",
+    "ejs": "^2.6.1",
     "express": "^4.16.3",
     "mocha": "^5.2.0",
     "morgan": "^1.9.0",

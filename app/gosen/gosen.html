@@ -1,0 +1,438 @@
+<!doctype html>
+<html>
+<head>
+<link href="//fonts.googleapis.com/earlyaccess/mplus1p.css" rel="stylesheet" />
+<style>
+html, body, main{
+margin:0;
+padding:0;
+}
+/* 全体設定とプロパティ定数 */
+
+
+.gosen-wrapper {
+  text-align: center;
+}
+
+.gosen-preview {
+  text-align: left
+}
+
+.gosen-preview {
+  display: inline-flex;
+  flex-direction: column;
+  transform: skewX(-25deg);
+}
+
+/* ５０００兆円欲しい */
+
+/* ======================================== */
+
+/* フォント指定 */
+
+/* ---------------------------------------- */
+
+.go-sen-chou-yen,
+.hoshii {
+  font-size: 96px;
+  font-weight: 900;
+  font-variant-east-asian: proportional-width;
+  -moz-font-feature-settings: "palt";
+  -webkit-font-feature-settings: "palt";
+  font-feature-settings: "palt";
+  line-height: 1.2;
+}
+
+.go-sen-chou-yen {
+  font-family: "Mplus 1p", sans-serif;
+  letter-spacing: 0.05em;
+}
+
+.hoshii {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  letter-spacing: 0.05em;
+}
+
+/* 共通プロパティ */
+
+/* ---------------------------------------- */
+
+.go-sen-chou-yen,
+.hoshii,
+.gosen-logo {
+  position: relative;
+}
+
+/* z-index */
+
+/* ---------------------------------------- */
+
+.go-sen-chou-yen:after,
+.hoshii:after {
+  z-index: 2;
+}
+
+.go-sen-chou-yen,
+.hoshii {
+  z-index: 1;
+}
+
+.gosen-logo:after {
+  z-index: -1;
+}
+
+.gosen-logo:before {
+  z-index: -2;
+}
+
+.go-sen-chou-yen:before,
+.hoshii:before {
+  z-index: -3;
+}
+
+.go-sen-chou-yen:before,
+.go-sen-chou-yen:after,
+.hoshii:before,
+.hoshii:after,
+.gosen-logo,
+.gosen-logo:before,
+.gosen-logo:after {
+  display: inline-block;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-position: 0 0;
+  background-size: 100% calc(1em * 1.2);
+}
+
+[data-text]:before,
+[data-text]:after {
+  content: attr(data-text) "";
+  position: absolute;
+  top: 0;
+}
+
+.go-sen-chou-yen:before,
+.go-sen-chou-yen:after,
+.go-sen-chou-yen>.gosen-logo:before,
+.go-sen-chou-yen>.gosen-logo:after {
+  left: 0;
+}
+
+.hoshii:before,
+.hoshii:after,
+.hoshii>.gosen-logo:before,
+.hoshii>.gosen-logo:after {
+  right: 0;
+}
+
+/* レイアウト */
+
+/* ---------------------------------------- */
+
+/* ※ 本来はmarginやpadding, width, height等のプロパティは単独のセレクタに付与せず、親のセレクタ次第で調整できるようにした方が望ましい。単体ではコンテナ側のレイアウトロジックに委ねる方式が柔軟。例：grid-gap, justify-content, flex-grow/flex-shrink ※ */
+
+.go-sen-chou-yen:before,
+.go-sen-chou-yen:after,
+.hoshii:before,
+.hoshii:after,
+.gosen-logo,
+.gosen-logo:before,
+.gosen-logo:after {
+  padding-top: 0.125em;
+  padding-left: 0.125em;
+  padding-right: 0.125em;
+  padding-bottom: 0.25em;
+}
+
+/* 「欲しい！」はロゴの右下にアラインがあるように配置　*/
+
+.hoshii {
+  margin-top: -0.125em;
+  margin-left: 2.5em;
+  text-align: right;
+}
+
+/* プレート側面の金属光沢をグラデーションで再現 */
+
+.gosen-logo:before {
+  -webkit-text-stroke-width: 16px;
+  transform: translate(10px, 10px);
+  color: transparent;
+  -webkit-background-clip: text;
+  background-image: linear-gradient( 90deg,
+  #876 0%,
+  #123 30%,
+  #456 40%,
+  #DEF 50%,
+  #123 70%,
+  #345 90%,
+  #876 100%);
+  background-size: 0.5em 1.5em;
+  background-repeart: repeat;
+  filter: drop-shadow(0px 0px 1px #000) blur(1px);
+  mix-blend-mode: hard-light;
+}
+
+.go-sen-chou-yen>.gosen-logo {
+  background-image: linear-gradient( #E00 20%,
+  #600 50%,
+  #F00 50%,
+  #600 65%,
+  #000 80%);
+}
+
+/* 金色に輝く ５０００兆円のベベル */
+
+.go-sen-chou-yen>.gosen-logo:after {
+  -webkit-text-stroke-width: 12px;
+  background-image: linear-gradient( #FFF 35%,
+  #FF0 49%,
+  #FC0 50%,
+  #930 55%,
+  #300 65%,
+  #960 70%,
+  #F90 75%,
+  #FF6 80%);
+  text-shadow: /* ベベル（光沢） */
+  #FFF -4px -4px 0px,
+  #FFF -4px -4px 2px,
+  /* ベベル（暗） */
+  #300 -2px -2px 4px,
+  #C00 -1px -1px 2px,
+  #300 -1px -2px 1px,
+  #300 -2px -2px 1px,
+  /* 縁取り（白） */
+  #FFF 1px -4px 1px,
+  #FFF 1px -3px 1px,
+  #FFF 1px -2px 1px,
+  #FFF 1px -1px 1px,
+  #FFF 1px 0px 1px,
+  #FFF 1px 1px 1px,
+  #FFF 0px 0px 1px,
+  #FFF -1px 0px 1px,
+  #FFF -4px 0px 1px,
+  #FFF -4px -1px 1px,
+  #FFF -4px -2px 1px,
+  #FFF -4px -3px 1px,
+  /* 縁取り（茶）*/
+  #300 2px -3px 1px,
+  #300 2px -2px 1px,
+  #300 2px -1px 1px,
+  #300 2px 0px 1px,
+  #300 2px 1px 1px,
+  #300 1px 1px 1px,
+  #300 0px 0px 1px,
+  #300 -1px 1px 1px,
+  #300 -1px 0px 1px,
+  #300 -1px -1px 1px,
+  #300 -1px -2px 1px;
+  filter: drop-shadow( 0px 0px 1px #F00) drop-shadow(-1px -1px 1px #FFF) drop-shadow( 2px 2px 1px #300);
+  transform: translate(2px, 2px);
+}
+
+.hoshii>.gosen-logo {
+  background-image: linear-gradient( #DEE,
+  #FFF 30%,
+  #BCC 50%,
+  #CDD 50%,
+  #FFF 80%);
+}
+
+/* 瑞々しく輝く「欲しさ」を放つベベル */
+
+.hoshii>.gosen-logo:after {
+  -webkit-text-stroke-width: 10px;
+  background-image: linear-gradient( #ABC,
+  #FFF 30%,
+  #456 60%,
+  #FFF 80%);
+  text-shadow: #FFF -3px -2px 0px,
+  #FFF -3px -2px 1px,
+
+  #39C -2px -1px 2px,
+
+  #9BC 1px 1px 2px,
+  #ABC 1px -1px 2px,
+  /* 縁取り */
+  #256 -2px -2px 1px,
+  #256 -2px 2px 1px,
+  #256 2px -2px 1px,
+  #256 2px 2px 1px;
+  filter: drop-shadow( 0px 0px 1px #069) drop-shadow(-1px -1px 1px #FFF) drop-shadow( 2px 2px 1px #333);
+  transform: translate(1px, 1px);
+}
+
+.go-sen-chou-yen:before,
+.hoshii:before {
+  text-shadow: /* ベベル右上の光沢 */
+  #FFF 0px 0px 0px,
+  /* 側面の光沢(暗) */
+  #ABC 0px 0px 8px,
+  #ABC 4px 4px 8px,
+  #ABC 8px 8px 8px,
+  #ABC 12px 12px 8px,
+  /* 側面の光沢(明) */
+  #FFF 0px 6px 1px,
+  #FFF 0px 7px 1px,
+  #FFF 0px 8px 1px,
+  #FFF 1px 9px 1px,
+  #FFF 1px 10px 1px,
+  #FFF 2px 11px 1px,
+  #FFF 2px 12px 1px,
+  #FFF 3px 13px 1px,
+  #FFF 3px 14px 1px,
+  #FFF 4px 15px 1px,
+  #FFF 4px 16px 1px,
+  #FFF 5px 17px 1px,
+  #FFF 6px 18px 1px,
+  #FFF 7px 17px 1px,
+  #FFF 8px 16px 1px,
+  #FFF 8px 15px 1px,
+  #FFF 8px 14px 1px,
+  #FFF 8px 13px 1px,
+  #FFF 8px 12px 1px,
+  #FFF 8px 11px 1px,
+  #FFF 8px 10px 1px,
+  #FFF 8px 9px 1px,
+  #FFF 8px 8px 1px,
+  #FFF 8px 7px 1px,
+  #FFF 8px 6px 1px,
+  /*　上端　*/
+  #222 -7px -4px 2px,
+  #222 -6px -4px 2px,
+  #222 -5px -4px 2px,
+  #222 -4px -4px 2px,
+  #222 -3px -4px 2px,
+  #222 -2px -4px 2px,
+  #222 -1px -4px 2px,
+  #222 0px -4px 2px,
+  #222 1px -5px 2px,
+  #222 2px -5px 2px,
+  #222 3px -5px 2px,
+  #222 4px -5px 2px,
+  #222 5px -5px 2px,
+  #222 6px -5px 2px,
+  #222 7px -5px 2px,
+  #222 8px -5px 2px,
+  #222 9px -5px 2px,
+  /* 右端 */
+  #012 10px -4px 2px,
+  #012 10px -3px 2px,
+  #012 11px -2px 2px,
+  #012 11px -1px 2px,
+  #012 12px 0px 2px,
+  #012 12px 1px 2px,
+  #012 13px 2px 2px,
+  #012 13px 3px 2px,
+  #012 14px 4px 2px,
+  #012 14px 5px 2px,
+  #012 15px 6px 2px,
+  #012 15px 7px 2px,
+  #012 16px 8px 2px,
+  #012 15px 9px 2px,
+  #012 14px 10px 2px,
+  #012 13px 11px 2px,
+  #012 12px 12px 2px,
+  #012 11px 13px 2px,
+  #012 10px 14px 2px,
+  #012 9px 15px 2px,
+  #012 8px 16px 2px,
+  /* 左端 */
+  #123 -7px -2px 2px,
+  #123 -7px -1px 2px,
+  #123 -7px 0px 2px,
+  #123 -7px 1px 2px,
+  #123 -6px 2px 2px,
+  #123 -6px 3px 2px,
+  #123 -6px 4px 2px,
+  #123 -5px 5px 2px,
+  #123 -5px 6px 2px,
+  #123 -4px 7px 2px,
+  #123 -4px 8px 2px,
+  #123 -3px 9px 2px,
+  #123 -3px 10px 2px,
+  #123 -2px 11px 2px,
+  #123 -2px 12px 2px,
+  #123 -1px 13px 2px,
+  #123 -1px 14px 2px,
+  #123 0px 15px 2px,
+  #123 0px 16px 2px,
+  /*　下端　*/
+  #123 1px 17px 2px,
+  #123 2px 17px 2px,
+  #123 3px 18px 2px,
+  #123 4px 18px 2px,
+  #123 5px 19px 2px,
+  #123 6px 19px 2px,
+  #123 7px 20px 2px,
+  #123 8px 20px 2px,
+  #123 9px 19px 2px,
+  #123 10px 19px 2px,
+  #123 11px 18px 2px,
+  #123 12px 18px 2px,
+  #123 13px 17px 2px,
+  #123 14px 17px 2px,
+  #123 15px 16px 2px,
+  #123 16px 16px 2px;
+}
+
+/* 仕上げ効果 */
+
+/* ---------------------------------------- */
+
+/* mix-blend-mode がサポートされているブラウザではオーバーレイ効果を付ける */
+
+@supports (mix-blend-mode: overlay) {
+  /* 最も上のレイヤー */
+  .go-sen-chou-yen:after,
+  .hoshii:after {
+    -webkit-text-stroke-width: 14px;
+    mix-blend-mode: overlay;
+    filter: blur(1px);
+  }
+
+  .go-sen-chou-yen:after {
+    background-image: radial-gradient( 0.75em at 0.25em 0.125em,
+    #FFF 20%,
+    #FC0,
+    #960,
+    #655);
+  }
+
+  .hoshii:after {
+    background-image: radial-gradient( 0.75em at calc(100% - 0.25em) 0.125em,
+    #FFF 30%,
+    #366,
+    #346);
+  }
+}
+
+/* mix-blend-mode がサポートされていないブラウザでは仕上げ効果のレイヤーを描画しない */
+
+@supports not (mix-blend-mode: overlay) {
+  .go-sen-chou-yen:after,
+  .hoshii:after {
+    display: none;
+  }
+}
+</style>
+</head>
+<body>
+<main class="gosen-preview">
+    <div id="gosen-logo-upper"
+       class="go-sen-chou-yen"
+       data-text="<%= line1 %>">
+      <span id="content-upper"
+            class="gosen-logo"
+            data-text="<%= line1 %>"><%= line1 %></span>
+    </div>
+    <div id="gosen-logo-lower"
+       class="hoshii"
+       data-text="<%= line2 %>">
+      <span id="content-lower"
+            class="gosen-logo"
+            data-text="<%= line2 %>"><%= line2 %></span>
+    </div>
+  </main>
+</body>
+</html>
