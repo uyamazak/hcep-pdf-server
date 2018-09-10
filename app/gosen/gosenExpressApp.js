@@ -5,6 +5,7 @@ const gosenExpressApp = (page) => {
   const ejs = require('ejs')
   const morgan = require('morgan')
   const timeout = require('connect-timeout')
+  const validator = require('validator')
   const appTimeoutMsec = process.env.HCEP_APP_TIMEOUT_MSEC || 30000
   const pageTimeoutMsec = process.env.HCEP_PAGE_TIMEOUT_MSEC || 10000
   const listenPort = process.env.HCEP_PORT || 8000
@@ -28,22 +29,33 @@ const gosenExpressApp = (page) => {
   // https://gist.github.com/malyw/b4e8284e42fdaeceab9a67a9b0263743
   app.route('/')
     .get(async (req, res) => {
-      /*
-      const html = req.body.html
-      if (!html) {
-        res.status(400)
-        res.contentType("text/plain")
-        res.end('post parameter "html" is not set')
-        return
+      let line1, line2
+      if (req.query.line1 && validator.isLength(req.query.line1, { min: 0, max: 20 })) {
+        line1 = req.query.line1
+      } else {
+        line1 = '5000兆円'
       }
-      */
-      const data = { line1: 'ホウレンソウ', line2: 'たべたい！' }
+      if (req.query.line2 && validator.isLength(req.query.line2, { min: 0, max: 20 })) {
+        line2 = req.query.line2
+      } else {
+        line2 = '欲しい！'
+      }
+
+      const data = { line1: line1, line2: line2 }
       const options = {}
       const html = await ejs.renderFile('app/gosen/gosen.html', data, options)
+      if (req.query.html) {
+        res.contentType("text/html")
+        res.status(200)
+        res.send(html)
+        res.end()
+        return
+      }
       const selector = '.gosen-preview'
       const padding = 0
       try {
         await page.setContent(html)
+        await page.setViewport({ width: 3000, height: 1000 })
         const rect = await page.evaluate(selector => {
           const element = document.querySelector(selector);
           if (!element) return null;
@@ -51,15 +63,16 @@ const gosenExpressApp = (page) => {
           return { left: x, top: y, width, height, id: element.id };
         }, selector);
         const buff = await page.screenshot({
-          omitBackground: false,
+          omitBackground: true,
           clip: {
             x: rect.left - padding,
             y: rect.top - padding,
-            width: rect.width + padding * 2 - 150,
+            width: rect.width + padding * 2 - 80,
             height: rect.height + padding * 2
           }
         })
         res.status(200)
+        res.header("Access-Control-Allow-Origin", "*");
         res.contentType("image/png")
         res.send(buff)
         res.end()

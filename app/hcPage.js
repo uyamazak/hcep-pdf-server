@@ -22,14 +22,16 @@ const hcPage = async () => {
   /**
    * Close browser with exit signal.
    */
-  const exitHandler = async () => {
-    console.log('process exit with SIGINT')
-    await browser.close()
-    console.log('complete browser.close()')
-    await process.exit()
+  const exitHandler =  async (args) => {
+    console.log(args)
+    const result =  await browser.close()
+    console.log('browser.close()', result)
   }
-  process.on('SIGINT', exitHandler)
-  process.on('SIGTERM', exitHandler)
+  process.on('exit', exitHandler)
+  process.on('SIGINT', function () {
+  console.log('Got SIGINT.  Press Control-D to exit.');
+});
+  //process.on('SIGTERM', exitHandler)
   return page
 }
 module.exports.hcPage = hcPage
