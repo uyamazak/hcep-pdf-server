@@ -11,7 +11,7 @@ const gosenExpressApp = (page) => {
   const listenPort = process.env.HCEP_PORT || 8000
   /* bytes or string for https://www.npmjs.com/package/bytes */
   const maxRquestSize = process.env.HCEP_MAX_REQUEST_SIZE || '10mb'
-
+  const templatePath = 'app/gosen.html'
   const app = express()
   const env = app.get('env')
   console.log('env:', env)
@@ -29,7 +29,7 @@ const gosenExpressApp = (page) => {
   // https://gist.github.com/malyw/b4e8284e42fdaeceab9a67a9b0263743
   app.route('/')
     .get(async (req, res) => {
-      let line1, line2
+      let line1, line2, emoji, rarity
       if (req.query.line1 && validator.isLength(req.query.line1, { min: 0, max: 20 })) {
         line1 = req.query.line1
       } else {
@@ -40,10 +40,21 @@ const gosenExpressApp = (page) => {
       } else {
         line2 = '欲しい！'
       }
+      if (req.query.emoji && validator.isLength(req.query.emoji, { min: 0, max: 1 })) {
+        emoji = req.query.emoji
+      } else {
+        emoji = ''
+      }
+      if (req.query.rarity && validator.isInt(req.query.rarity, { min: 0, max: 10 })) {
+        rarity = req.query.rarity
+      } else {
+        rarity = 0
+      }
 
-      const data = { line1: line1, line2: line2 }
+
+      const data = { line1: line1, line2: line2, emoji: emoji, rarity:rarity }
       const options = {}
-      const html = await ejs.renderFile('app/gosen/gosen.html', data, options)
+      const html = await ejs.renderFile(templatePath, data, options)
       if (req.query.html) {
         res.contentType("text/html")
         res.status(200)
@@ -67,7 +78,7 @@ const gosenExpressApp = (page) => {
           clip: {
             x: rect.left - padding,
             y: rect.top - padding,
-            width: rect.width + padding * 2 - 80,
+            width: rect.width + padding * 2 - 50,
             height: rect.height + padding * 2
           }
         })

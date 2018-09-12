@@ -1,4 +1,4 @@
-const { hcPage } = require('../hcPage')
+const { hcPage } = require('./hcPage')
 const { gosenExpressApp } = require('./gosenExpressApp')
 
 const main = async () => {

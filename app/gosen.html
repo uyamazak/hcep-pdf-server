@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link href="//fonts.googleapis.com/earlyaccess/mplus1p.css" rel="stylesheet" />
+<meta charset="UTF-8">
 <style>
 /*
 https://codepen.io/VoQn/pen/jwjdOq
@@ -11,11 +11,6 @@ html, body, main{
   padding:0;
 }
 /* 全体設定とプロパティ定数 */
-.gosen-wrapper {
-}
-.gosen-preview {
-}
-
 .gosen-preview {
   display: inline-flex;
   flex-direction: column;
@@ -413,11 +408,36 @@ html, body, main{
     display: none;
   }
 }
+
+.rarity-1 {
+  background-color: white;
+}
+
+.rarity-2 {
+  background-color: lightcyan;
+}
+
+.rarity-3 {
+  background-color: skyblue;
+}
+
+.rarity-4 {
+  background-color: plum;
+}
+
+.rarity-5 {
+  background-color: gold;
+}
+.emoji{
+  text-align:right;
+  font-size:36px;
+}
 </style>
 </head>
 <body>
-<div class="gosen-wrapper">
+<div class="gosen-wrapper rarity-<%= rarity %>">
 <main class="gosen-preview">
+<!--<% if (emoji) { %><div class="emoji"><%= emoji %></div><% } %>-->
     <div id="gosen-logo-upper"
        class="go-sen-chou-yen"
        data-text="<%= line1 %>">
@@ -432,7 +452,8 @@ html, body, main{
             class="gosen-logo"
             data-text="<%= line2 %>"><%= line2 %></span>
     </div>
-  </main>
+
+</main>
 </div>
 </body>
 </html>
