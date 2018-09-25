@@ -4,8 +4,8 @@ const expressApp = (page) => {
   const express = require('express')
   const morgan = require('morgan')
   const timeout = require('connect-timeout')
-  const { getPdfOption } = require('./pdfOption')
-  const appTimeoutMsec = process.env.HCEP_APP_TIMEOUT_MSEC || 30000
+  const { getPdfOption } = require('./pdf-option')
+  const appTimeoutMsec = process.env.HCEP_APP_TIMEOUT_MSEC || 10000
   const pageTimeoutMsec = process.env.HCEP_PAGE_TIMEOUT_MSEC || 10000
   const listenPort = process.env.HCEP_PORT || 8000
   /* bytes or string for https://www.npmjs.com/package/bytes */

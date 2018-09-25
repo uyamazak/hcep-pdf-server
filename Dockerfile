@@ -1,7 +1,6 @@
 FROM node:10-slim
 LABEL maintainer="yu_yamazaki@bizocean.co.jp"
 
-
 # Install fonts
 COPY fonts /usr/share/fonts
 
@@ -42,4 +41,4 @@ EXPOSE 8000
 RUN useradd chromeuser -s /bin/bash -m -u 10000
 USER chromeuser
 
-CMD ["node", "app/pdfServer.js"]
+CMD ["npm", "start"]

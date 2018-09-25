@@ -2,7 +2,7 @@
   "name": "hcep-pdf-server",
   "version": "1.1.0",
   "description": "Simple PDF rendering server using Headless Chrome & Express & Puppeteer",
-  "main": "app/pdfServer.js",
+  "main": "app/pdf-server.js",
   "dependencies": {
     "body-parser": "^1.18.3",
     "chai": "^4.1.2",
@@ -11,14 +11,14 @@
     "express": "^4.16.3",
     "mocha": "^5.2.0",
     "morgan": "^1.9.0",
-    "npm": "^6.4.0",
-    "puppeteer": "^1.7.0",
+    "npm": "^6.4.1",
+    "puppeteer": "^1.8.0",
     "supertest": "^3.1.0"
   },
   "devDependencies": {
   },
   "scripts": {
-    "start": "node app/pdfServer.js",
+    "start": "node app/pdf-server.js",
     "test": "mocha"
   },
   "repository": {
