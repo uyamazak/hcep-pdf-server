@@ -4,18 +4,18 @@ LABEL maintainer="yu_yamazaki@bizocean.co.jp"
 # Install fonts
 COPY fonts /usr/share/fonts
 
-# Install utilities
+# Update
 RUN apt-get update --fix-missing && apt-get -y upgrade
 
 # Locale settings (japanese)
-RUN apt-get install -y locales task-japanese
-RUN locale-gen ja_JP.UTF-8
-RUN localedef -f UTF-8 -i ja_JP ja_JP
+RUN apt-get install -y locales task-japanese \
+  && locale-gen ja_JP.UTF-8 \
+  && localedef -f UTF-8 -i ja_JP ja_JP
 ENV LANG ja_JP.UTF-8
 ENV LANGUAGE ja_JP:jp
 ENV LC_ALL ja_JP.UTF-8
 
-# Install chrome package.
+# Install stable chrome and dependencies.
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
   && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
   && apt-get update \
@@ -23,19 +23,15 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
   && rm -rf /var/lib/apt/lists/* \
   && rm -rf /src/*.deb
 
-# Use installed Chrome instead of default Chromium
-# There is no big difference, but in order to bring the environment closer to Chrome normally used
-
-#ENV CHROME_BINARY /usr/bin/google-chrome
-#ENV HCEP_USE_CHROMIUM false
-
-# ENV CHROME_BINARY /usr/bin/google-chrome
+# if use default chromium
 ENV HCEP_USE_CHROMIUM true
-# if HCEP_USE_CHROMIUM is true, then below must set false
-# ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
+
+# else use chrome enable below settings
+#ENV HCEP_USE_CHROMIUM false
+#ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
+#ENV CHROME_BINARY /usr/bin/google-chrome
 
 ENV NODE_ENV production
-
 RUN mkdir /hcep/
 COPY app /hcep/app
 COPY package.json /hcep/

@@ -31,10 +31,11 @@ https://cloud.google.com/appengine/docs/standard/nodejs/using-headless-chrome-wi
 ### Caution
 Since this product is supposed to be used within local network (like Kubernetes, GKE), error control and security measures are minimum, please accept only reliable requests. It does not assume direct disclosure to the outside.
 
-
 ### Clone
 git clone this repository.
 
+### Customize Dockefile (optionary)
+Please specify whether to use Chromium bundled with Puppeteer (recommend) or Chrome, and change locale setting etc. as necessary.
 
 ### Install fonts (optionary)
 If you convert pages in Japanese, Chinese or languages other than English, you will need to install each font files. Also, you can use WEB fonts, but since it takes a long time for requesting and downloading them, we recommend that install the font files in the server.
