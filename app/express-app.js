@@ -26,6 +26,12 @@ const expressApp = (page) => {
     console.log('Listening on:', listenPort)
   })
 
+  function handlePageError(e, option) {
+    console.error('Page error occurred! process.exit()')
+    console.error('error:', e)
+    console.error('option:', option)
+    process.exit()
+  }
   /**
    * get()
    * Receive get request with target page's url
@@ -58,6 +64,7 @@ const expressApp = (page) => {
         res.contentType("text/plain")
         res.status(500)
         res.end()
+        handlePageError(e, url)
       }
     })
     /**
@@ -77,16 +84,18 @@ const expressApp = (page) => {
       }
       try {
         await page.setContent(html)
-        const buff = await page.pdf(getPdfOption(req.body.pdf_option))
+        await page.evaluateHandle('document.fonts.ready')
+        const pdfOption = getPdfOption(req.body.pdf_option)
+        const buff = await page.pdf(pdfOption)
         res.status(200)
         res.contentType("application/pdf")
         res.send(buff)
         res.end()
       } catch (e) {
-        console.error(e)
         res.contentType("text/plain")
         res.status(500)
         res.end()
+        handlePageError(e, html)
       }
     })
 

@@ -9,7 +9,7 @@ class PdfOption {
   constructor(options) {
     this.format = options.format
     this.landscape = options.landscape || false
-    this.printBackground = (options.printBackground === undefined) ? false : options.printBackground
+    this.printBackground = (options.printBackground === undefined) ? true : options.printBackground
     this.displayHeaderFooter = options.displayHeaderFooter || false
     this.margin = {
       top: options.marginTop || options.margin || defaultMargin,
@@ -17,6 +17,7 @@ class PdfOption {
       bottom: options.marginBottom || options.margin || defaultMargin,
       left: options.marginLeft || options.margin || defaultMargin
     }
+    this.preferCSSPageSize = true
   }
 }
 

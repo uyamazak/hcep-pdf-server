@@ -1,6 +1,5 @@
 const hcPage = async () => {
   const puppeteer = require('puppeteer')
-  const chromeBinary = process.env.HCEP_CHROME_BINARY || '/usr/bin/google-chrome'
   const launchOptions = (() => {
     let options = {
       args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu']
@@ -8,6 +7,7 @@ const hcPage = async () => {
     if (process.env.HCEP_USE_CHROMIUM === 'true') {
       console.log("use Chromium:")
     }else{
+      const chromeBinary = process.env.HCEP_CHROME_BINARY || '/usr/bin/google-chrome'
       options['executablePath'] = chromeBinary
       console.log("use chromeBinary:", chromeBinary)
     }
