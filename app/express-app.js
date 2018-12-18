@@ -1,15 +1,15 @@
 const expressApp = (page) => {
   const bodyParser = require('body-parser')
-  const debug = require('debug')('hcepPdfServer')
+  const debug = require('debug')('hcepPdfServer:expressApp')
   const express = require('express')
   const morgan = require('morgan')
   const timeout = require('connect-timeout')
-  const { getPdfOption } = require('./pdf-option')
+  const { getPdfOption } = require('./get-pdf-option')
   const appTimeoutMsec = process.env.HCEP_APP_TIMEOUT_MSEC || 10000
   const pageTimeoutMsec = process.env.HCEP_PAGE_TIMEOUT_MSEC || 10000
   const listenPort = process.env.HCEP_PORT || 8000
   /* bytes or string for https://www.npmjs.com/package/bytes */
-  const maxRquestSize = process.env.HCEP_MAX_REQUEST_SIZE || '10mb'
+  const maxRquestSize = process.env.HCEP_MAX_REQUEST_SIZE || '10MB'
 
   const app = express()
   const env = app.get('env')
@@ -20,7 +20,10 @@ const expressApp = (page) => {
     app.use(morgan('dev'))
   }
 
-  app.use(bodyParser.urlencoded({ extended: false, limit: maxRquestSize }))
+  app.use(bodyParser.urlencoded({
+    extended: false,
+    limit: maxRquestSize
+  }))
   app.use(timeout(appTimeoutMsec))
   app.listen(listenPort, () => {
     console.log('Listening on:', listenPort)
@@ -32,14 +35,15 @@ const expressApp = (page) => {
     console.error('option:', option)
     process.exit()
   }
-  /**
-   * get()
-   * Receive get request with target page's url
-   * @req.query.url {String} page's url
-   * @req.query.pdf_option {String} a key of pdfOptions
-   * @return binary of PDF or error response (400 or 500)
-   */
+
   app.route('/')
+    /**
+     * get()
+     * Receive get request with target page's url
+     * @req.query.url {String} page's url
+     * @req.query.pdf_option {String} a key of pdfOptions
+     * @return binary of PDF or error response (400 or 500)
+     */
     .get(async (req, res) => {
       const url = req.query.url
       if (!url) {
@@ -54,7 +58,9 @@ const expressApp = (page) => {
             waitUntil: ["load", "domcontentloaded"]
           }
         )
-        const buff = await page.pdf(getPdfOption(req.query.pdf_option))
+        const pdfOption = getPdfOption(req.query.pdf_option)
+        debug('pdfOption', pdfOption)
+        const buff = await page.pdf(pdfOption)
         res.status(200)
         res.contentType("application/pdf")
         res.send(buff)
@@ -86,6 +92,7 @@ const expressApp = (page) => {
         await page.setContent(html)
         await page.evaluateHandle('document.fonts.ready')
         const pdfOption = getPdfOption(req.body.pdf_option)
+        debug('pdfOption', pdfOption)
         const buff = await page.pdf(pdfOption)
         res.status(200)
         res.contentType("application/pdf")
@@ -99,13 +106,13 @@ const expressApp = (page) => {
       }
     })
 
-  /**
-   * get()
-   * Receive get request with target page's url
-   * @req.query.url {String} page's url
-   * @return binary of PNG or error response (400 or 500)
-   */
   app.route('/screenshot')
+    /**
+     * get()
+     * Receive get request with target page's url
+     * @req.query.url {String} page's url
+     * @return binary of PNG or error response (400 or 500)
+     */
     .get(async (req, res) => {
       const url = req.query.url
       if (!url) {
@@ -121,7 +128,9 @@ const expressApp = (page) => {
             waitUntil: ["load", "domcontentloaded"]
           }
         )
-        const buff = await page.screenshot({ fullPage: true })
+        const buff = await page.screenshot({
+          fullPage: true
+        })
         res.status(200)
         res.contentType("image/png")
         res.send(buff)
@@ -148,7 +157,9 @@ const expressApp = (page) => {
       }
       try {
         await page.setContent(html)
-        const buff = await page.screenshot({ fullPage: true })
+        const buff = await page.screenshot({
+          fullPage: true
+        })
         res.status(200)
         res.contentType("image/png")
         res.send(buff)

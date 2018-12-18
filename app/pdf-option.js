@@ -1,54 +1,50 @@
-const debug = require('debug')('hcepPdfOptions')
+const mergeOptions = require('merge-options')
 const defaultMargin = process.env.HCEP_DEFAULT_MARGIN || '18mm'
-const defaultPdfOptionKey = process.env.HCEP_PDF_OPTION_KEY || 'A4'
 /**
  * PdfOption more detail
  * https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#pagepdfoptions
  */
 class PdfOption {
-  constructor(options) {
-    this.format = options.format
-    this.landscape = options.landscape || false
-    this.printBackground = (options.printBackground === undefined) ? true : options.printBackground
-    this.displayHeaderFooter = options.displayHeaderFooter || false
-    this.margin = {
-      top: options.marginTop || options.margin || defaultMargin,
-      right: options.marginRight || options.margin || defaultMargin,
-      bottom: options.marginBottom || options.margin || defaultMargin,
-      left: options.marginLeft || options.margin || defaultMargin
+  defaultOptions() {
+    return {
+      scale: 1,
+      displayHeaderFooter: false,
+      headerTemplate: '',
+      footerTemplate: '',
+      printBackground: true,
+      landscape: false,
+      pageRanges: '',
+      format: '',
+      width: '',
+      height: '',
+      margin: defaultMargin,
+      marginTop: '',
+      marginRight: '',
+      marginBottom: '',
+      marginLeft: '',
+      preferCSSPageSize: true
     }
-    this.preferCSSPageSize = true
+  }
+
+  constructor(options) {
+    options = mergeOptions(this.defaultOptions(), options)
+    this.scale = options.scale
+    this.displayHeaderFooter = options.displayHeaderFooter
+    this.headerTemplate = options.headerTemplate
+    this.footerTemplate = options.footerTemplate
+    this.printBackground = options.printBackground
+    this.landscape = options.landscape
+    this.pageRanges = options.pageRanges
+    this.format = options.format
+    this.width = options.width
+    this.height = options.height
+    this.margin = {
+      top: options.marginTop || options.margin,
+      right: options.marginRight || options.margin,
+      bottom: options.marginBottom || options.margin,
+      left: options.marginLeft || options.margin
+    }
+    this.preferCSSPageSize = options.preferCSSPageSize
   }
 }
-
-const pdfOptions = {
-  'A3': new PdfOption({ 'format': 'A3' }),
-  'A3Full': new PdfOption({ 'format': 'A3', margin: '0mm' }),
-  'A3Landscape': new PdfOption({ 'format': 'A3', landscape: true }),
-  'A3LandscapeFull': new PdfOption({ 'format': 'A3', landscape: true, margin: '0mm' }),
-  'A4': new PdfOption({ 'format': 'A4' }),
-  'A4Full': new PdfOption({ 'format': 'A4', margin: '0mm' }),
-  'A4Landscape': new PdfOption({ 'format': 'A4', landscape: true }),
-  'A4LandscapeFull': new PdfOption({ 'format': 'A4', landscape: true, margin: '0mm' })
-}
-
-const getPdfOption = function (key, options) {
-  options = options || pdfOptions
-  if (!key) {
-    debug('use defaultPdfOption:', defaultPdfOptionKey)
-    return options[defaultPdfOptionKey]
-  }
-  if (key in options) {
-    debug('use pdfOption', key)
-    return options[key]
-  } else {
-    console.error('key', key, ' is not exists in pdfOptions')
-    return options[defaultPdfOptionKey]
-  }
-}
-
-module.exports = {
-  PdfOption: PdfOption,
-  pdfOptions: pdfOptions,
-  getPdfOption: getPdfOption
-}
+module.exports.PdfOption = PdfOption
