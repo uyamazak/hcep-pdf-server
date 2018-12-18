@@ -151,6 +151,17 @@ default: 10mb
 
 
 ### PDF settings
+
+#### HCEP_MY_PDF_OPTIONS_FILE_PATH
+If you want to extend the PDF options yourself, create a file with reference to "app/my-pdf-options.js.sample" and specify the file path in this variable.
+
+default: none
+example: HCEP_PDF_MY_OPTIONS_FILE_PATH="./my-pdf-options"
+
+You can make your PDF options. Read the puppeteer API's docs.
+<https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#pagepdfoptions>
+
+
 #### HCEP_PDF_DEFAULT_MARGIN
 default: 18mm
 
@@ -163,11 +174,6 @@ default: 'http://localhost:8000'
 
 #### HCEP_TEST_TAREGT_URL
 default: 'https://www.google.com'
-
-## Customize PDF options
-You can customize PDF with options. Read the puppeteer API's docs.
-
-<https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#pagepdfoptions>
 
 ## Author
 uyamazak:[blog](http://uyamazak.hatenablog.com/)

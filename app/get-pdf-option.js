@@ -38,7 +38,7 @@ const defaultPdfOptions = {
 }
 
 let pdfOptions = defaultPdfOptions
-const myOptionsFilePath = process.env.HCEP_PDF_MY_OPTIONS_FILE_PATH || null
+const myOptionsFilePath = process.env.HCEP_MY_PDF_OPTIONS_FILE_PATH || null
 if (myOptionsFilePath) {
   const mergeOptions = require('merge-options')
   const { myPdfOptions } = require(myOptionsFilePath)
