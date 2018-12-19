@@ -156,7 +156,24 @@ default: 10mb
 If you want to extend the PDF options yourself, create a file with reference to "app/my-pdf-options.js.sample" and specify the file path in this variable.
 
 default: none
+
 example: HCEP_PDF_MY_OPTIONS_FILE_PATH="./my-pdf-options"
+
+app/my-pdf-options.js
+```
+module.exports.myPdfOptions = {
+  'A4ShowPageNumberFooter': {
+    format: 'A4',
+    displayHeaderFooter: true,
+    headerTemplate: '<span></span>',
+    footerTemplate: `<div style="font-size:7pt;text-align:center;padding-bottom:5mm;width:100%;">
+      <span class="pageNumber"></span> / <span class="totalPages"></span>
+    </div>`
+  }
+}
+
+```
+
 
 You can make your PDF options. Read the puppeteer API's docs.
 <https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#pagepdfoptions>
