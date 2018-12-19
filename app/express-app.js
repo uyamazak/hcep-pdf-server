@@ -55,19 +55,21 @@ const expressApp = (page) => {
         await page.goto(
           url, {
             timeout: pageTimeoutMsec,
-            waitUntil: ["load", "domcontentloaded"]
+            waitUntil: ['load', 'domcontentloaded']
           }
         )
+        // Wait for web font loading completion
+        await page.evaluateHandle('document.fonts.ready')
         const pdfOption = getPdfOption(req.query.pdf_option)
         debug('pdfOption', pdfOption)
         const buff = await page.pdf(pdfOption)
         res.status(200)
-        res.contentType("application/pdf")
+        res.contentType('application/pdf')
         res.send(buff)
         res.end()
       } catch (e) {
         console.error(e)
-        res.contentType("text/plain")
+        res.contentType('text/plain')
         res.status(500)
         res.end()
         handlePageError(e, url)
@@ -84,22 +86,23 @@ const expressApp = (page) => {
       const html = req.body.html
       if (!html) {
         res.status(400)
-        res.contentType("text/plain")
+        res.contentType('text/plain')
         res.end('post parameter "html" is not set')
         return
       }
       try {
         await page.setContent(html)
+        // Wait for web font loading completion
         await page.evaluateHandle('document.fonts.ready')
         const pdfOption = getPdfOption(req.body.pdf_option)
         debug('pdfOption', pdfOption)
         const buff = await page.pdf(pdfOption)
         res.status(200)
-        res.contentType("application/pdf")
+        res.contentType('application/pdf')
         res.send(buff)
         res.end()
       } catch (e) {
-        res.contentType("text/plain")
+        res.contentType('text/plain')
         res.status(500)
         res.end()
         handlePageError(e, html)
@@ -117,7 +120,7 @@ const expressApp = (page) => {
       const url = req.query.url
       if (!url) {
         res.status(400)
-        res.contentType("text/plain")
+        res.contentType('text/plain')
         res.end('get parameter "url" is not set')
         return
       }
@@ -125,19 +128,19 @@ const expressApp = (page) => {
         await page.goto(
           url, {
             timeout: pageTimeoutMsec,
-            waitUntil: ["load", "domcontentloaded"]
+            waitUntil: ['load', 'domcontentloaded']
           }
         )
         const buff = await page.screenshot({
           fullPage: true
         })
         res.status(200)
-        res.contentType("image/png")
+        res.contentType('image/png')
         res.send(buff)
         res.end()
       } catch (e) {
         console.error(e)
-        res.contentType("text/plain")
+        res.contentType('text/plain')
         res.status(500)
         res.end()
       }
@@ -161,7 +164,7 @@ const expressApp = (page) => {
           fullPage: true
         })
         res.status(200)
-        res.contentType("image/png")
+        res.contentType('image/png')
         res.send(buff)
         res.end()
       } catch (e) {

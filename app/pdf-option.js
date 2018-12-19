@@ -3,9 +3,14 @@ const defaultMargin = process.env.HCEP_DEFAULT_MARGIN || '18mm'
 /**
  * PdfOption more detail
  * https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#pagepdfoptions
+ *
  */
 class PdfOption {
   defaultOptions() {
+    /**
+     Since this application does not save the generated PDF to the disk,
+     'path' should not be set.
+    */
     return {
       scale: 1,
       displayHeaderFooter: false,

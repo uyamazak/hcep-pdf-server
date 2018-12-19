@@ -2,15 +2,15 @@ const debug = require('debug')('hcepPdfServer:hcPage')
 const hcPage = async () => {
   const puppeteer = require('puppeteer')
   const launchOptions = (() => {
-    let options = {
+    const options = {
       args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu']
     }
     if (process.env.HCEP_USE_CHROMIUM === 'true') {
-      debug("use Chromium:")
+      debug('use Chromium:')
     } else {
       const chromeBinary = process.env.HCEP_CHROME_BINARY || '/usr/bin/google-chrome'
       options['executablePath'] = chromeBinary
-      debug("use chromeBinary:", chromeBinary)
+      debug('use chromeBinary:', chromeBinary)
     }
     return options
   })()
@@ -18,8 +18,8 @@ const hcPage = async () => {
   // launch browser and page only once
   const browser = await puppeteer.launch(launchOptions)
   const chromeVersion = await browser.version()
-  const page = browser.newPage()
-  debug("chromeVersion:", chromeVersion)
+  const page = await browser.newPage()
+  debug('chromeVersion:', chromeVersion)
   /**
    * Close browser with exit signal.
    */

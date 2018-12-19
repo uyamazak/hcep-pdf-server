@@ -3,38 +3,38 @@ const defaultPdfOptionKey = process.env.HCEP_PDF_OPTION_KEY || 'A4'
 const { PdfOption } = require('./pdf-option')
 
 const defaultPdfOptions = {
-  A3: new PdfOption({
+  A3: {
     format: 'A3'
-  }),
-  A3Full: new PdfOption({
+  },
+  A3Full: {
     format: 'A3',
     margin: '0mm'
-  }),
-  A3Landscape: new PdfOption({
+  },
+  A3Landscape: {
     format: 'A3',
     landscape: true
-  }),
-  A3LandscapeFull: new PdfOption({
+  },
+  A3LandscapeFull: {
     format: 'A3',
     landscape: true,
     margin: '0mm'
-  }),
-  A4: new PdfOption({
+  },
+  A4: {
     format: 'A4'
-  }),
-  A4Full: new PdfOption({
+  },
+  A4Full: {
     format: 'A4',
     margin: '0mm'
-  }),
-  A4Landscape: new PdfOption({
+  },
+  A4Landscape: {
     format: 'A4',
     landscape: true
-  }),
-  A4LandscapeFull: new PdfOption({
+  },
+  A4LandscapeFull: {
     format: 'A4',
     landscape: true,
     margin: '0mm'
-  })
+  }
 }
 
 let pdfOptions = defaultPdfOptions
@@ -49,13 +49,12 @@ debug('pdfOptions:', pdfOptions)
 module.exports.getPdfOption = function (key) {
   if (!key) {
     debug('use defaultPdfOption:', defaultPdfOptionKey)
-    return pdfOptions[defaultPdfOptionKey]
+    key = defaultPdfOptionKey
   }
-  if (key in pdfOptions) {
-    debug('use pdfOption', key)
-    return pdfOptions[key]
-  } else {
+  if (!(key in pdfOptions)) {
     console.error('key', key, ' is not exists in pdfOptions')
-    return pdfOptions[defaultPdfOptionKey]
+    key = defaultPdfOptionKey
   }
+  debug('use pdfOption', key)
+  return new PdfOption(pdfOptions[key])
 }
