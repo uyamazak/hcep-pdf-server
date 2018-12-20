@@ -6,7 +6,7 @@ const defaultMargin = process.env.HCEP_DEFAULT_MARGIN || '18mm'
  *
  */
 class PdfOption {
-  defaultOptions() {
+  defaultOption() {
     /**
      Since this application does not save the generated PDF to the disk,
      'path' should not be set.
@@ -32,7 +32,7 @@ class PdfOption {
   }
 
   constructor(options) {
-    options = mergeOptions(this.defaultOptions(), options)
+    options = mergeOptions(this.defaultOption(), options)
     this.scale = options.scale
     this.displayHeaderFooter = options.displayHeaderFooter
     this.headerTemplate = options.headerTemplate

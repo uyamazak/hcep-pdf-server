@@ -152,16 +152,16 @@ default: 10mb
 
 ### PDF settings
 
-#### HCEP_MY_PDF_OPTIONS_FILE_PATH
-If you want to extend the PDF options yourself, create a file with reference to "app/my-pdf-options.js.sample" and specify the file path in this variable.
+#### HCEP_MY_PDF_OPTION_PRESETS_FILE_PATH
+If you want to extend the PDF options yourself, create a file with reference to "app/my-pdf-option-presets.js.sample" and specify the file path in this variable.
 
 default: none
 
-example: HCEP_PDF_MY_OPTIONS_FILE_PATH="./my-pdf-options"
+example: "./my-pdf-options"
 
 app/my-pdf-options.js
 ```
-module.exports.myPdfOptions = {
+module.exports.myPdfOptionPresets = {
   'A4ShowPageNumberFooter': {
     format: 'A4',
     displayHeaderFooter: true,

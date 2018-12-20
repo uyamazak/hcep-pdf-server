@@ -2,7 +2,7 @@ const debug = require('debug')('hcepPdfServer:getPdfOption')
 const defaultPdfOptionKey = process.env.HCEP_PDF_OPTION_KEY || 'A4'
 const { PdfOption } = require('./pdf-option')
 
-const defaultPdfOptions = {
+const defaultPdfOptionPresets = {
   A3: {
     format: 'A3'
   },
@@ -37,24 +37,25 @@ const defaultPdfOptions = {
   }
 }
 
-let pdfOptions = defaultPdfOptions
-const myOptionsFilePath = process.env.HCEP_MY_PDF_OPTIONS_FILE_PATH || null
-if (myOptionsFilePath) {
+let pdfOptionPresets = defaultPdfOptionPresets
+
+const myPdfOptionPresetsFilePath = process.env.HCEP_MY_PDF_OPTION_PRESETS_FILE_PATH
+if (myPdfOptionPresetsFilePath) {
   const mergeOptions = require('merge-options')
-  const { myPdfOptions } = require(myOptionsFilePath)
-  pdfOptions = mergeOptions(defaultPdfOptions, myPdfOptions)
+  const { myPdfOptionPresets } = require(myPdfOptionPresetsFilePath)
+  pdfOptionPresets = mergeOptions(defaultPdfOptionPresets, myPdfOptionPresets)
 }
-debug('pdfOptions:', pdfOptions)
+debug('pdfOptionPresets:', pdfOptionPresets)
 
 module.exports.getPdfOption = function (key) {
   if (!key) {
     debug('use defaultPdfOption:', defaultPdfOptionKey)
     key = defaultPdfOptionKey
   }
-  if (!(key in pdfOptions)) {
-    console.error('key', key, ' is not exists in pdfOptions')
+  if (!(key in pdfOptionPresets)) {
+    console.error('key', key, ' is not exists in pdfOptionPresets')
     key = defaultPdfOptionKey
   }
   debug('use pdfOption', key)
-  return new PdfOption(pdfOptions[key])
+  return new PdfOption(pdfOptionPresets[key])
 }

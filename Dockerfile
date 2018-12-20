@@ -31,8 +31,8 @@ ENV HCEP_USE_CHROMIUM true
 #ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 #ENV CHROME_BINARY /usr/bin/google-chrome
 
-# If you want to extend pdf options, rename app/my-pdf-options.js.sample to app/my-pdf-options.js and activate this
-#HCEP_MY_PDF_OPTIONS_FILE_PATH="./my-pdf-options"
+# If you want to extend pdf options, rename app/my-pdf-option-presets.js.sample to app/my-pdf-option-presets.js and activate this
+#HCEP_MY_PDF_OPTION_PRESETS_FILE_PATH="./my-pdf-option-presets"
 
 ENV NODE_ENV production
 RUN mkdir /hcep/

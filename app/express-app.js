@@ -4,7 +4,7 @@ const expressApp = (page) => {
   const express = require('express')
   const morgan = require('morgan')
   const timeout = require('connect-timeout')
-  const { getPdfOption } = require('./get-pdf-option')
+  const { getPdfOption } = require('./pdf-option/get-pdf-option')
   const appTimeoutMsec = process.env.HCEP_APP_TIMEOUT_MSEC || 10000
   const pageTimeoutMsec = process.env.HCEP_PAGE_TIMEOUT_MSEC || 10000
   const listenPort = process.env.HCEP_PORT || 8000
