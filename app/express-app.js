@@ -1,4 +1,4 @@
-const expressApp = (page) => {
+module.exports.expressApp = (page) => {
   const bodyParser = require('body-parser')
   const debug = require('debug')('hcepPdfServer:expressApp')
   const express = require('express')
@@ -184,5 +184,3 @@ const expressApp = (page) => {
   })
   return app
 }
-
-module.exports.expressApp = expressApp

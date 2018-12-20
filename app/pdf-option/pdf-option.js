@@ -5,7 +5,7 @@ const defaultMargin = process.env.HCEP_DEFAULT_MARGIN || '18mm'
  * https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#pagepdfoptions
  *
  */
-class PdfOption {
+module.exports.PdfOption = class {
   defaultOption() {
     /**
      Since this application does not save the generated PDF to the disk,
@@ -52,4 +52,3 @@ class PdfOption {
     this.preferCSSPageSize = options.preferCSSPageSize
   }
 }
-module.exports.PdfOption = PdfOption

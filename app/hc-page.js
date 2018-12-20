@@ -1,5 +1,5 @@
 const debug = require('debug')('hcepPdfServer:hcPage')
-const hcPage = async () => {
+module.exports.hcPage = async () => {
   const puppeteer = require('puppeteer')
   const launchOptions = (() => {
     const options = {
@@ -33,4 +33,3 @@ const hcPage = async () => {
   process.on('SIGTERM', exitHandler)
   return page
 }
-module.exports.hcPage = hcPage
