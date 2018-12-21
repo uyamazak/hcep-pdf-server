@@ -182,7 +182,7 @@ You can make your PDF options. Read the puppeteer API's docs.
 #### HCEP_PDF_DEFAULT_MARGIN
 default: 18mm
 
-#### HCEP_PDF_OPTION_KEY
+#### HCEP_DEFAULT_PDF_OPTION_KEY
 default: A4
 
 ### Test settings

@@ -1,5 +1,5 @@
 const debug = require('debug')('hcepPdfServer:getPdfOption')
-const defaultPdfOptionKey = process.env.HCEP_PDF_OPTION_KEY || 'A4'
+const defaultPdfOptionKey = process.env.HCEP_DEFAULT_PDF_OPTION_KEY || 'A4'
 const defaultPdfOptionPresets = require('./default-pdf-option-presets')
 const { PdfOption } = require('./pdf-option')
 const myPdfOptionPresetsFilePath = process.env.HCEP_MY_PDF_OPTION_PRESETS_FILE_PATH
@@ -7,6 +7,7 @@ const myPdfOptionPresetsFilePath = process.env.HCEP_MY_PDF_OPTION_PRESETS_FILE_P
 let pdfOptionPresets = defaultPdfOptionPresets
 
 if (myPdfOptionPresetsFilePath) {
+  debug('myPdfOptionPresetsFilePath:', myPdfOptionPresetsFilePath)
   const mergeOptions = require('merge-options')
   const { myPdfOptionPresets } = require(myPdfOptionPresetsFilePath)
   pdfOptionPresets = mergeOptions(defaultPdfOptionPresets, myPdfOptionPresets)
