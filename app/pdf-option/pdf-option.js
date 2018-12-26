@@ -1,38 +1,37 @@
 const mergeOptions = require('merge-options')
 const defaultMargin = process.env.HCEP_DEFAULT_MARGIN || '18mm'
+const defaultOption = {
+  scale: 1,
+  displayHeaderFooter: false,
+  headerTemplate: '',
+  footerTemplate: '',
+  printBackground: true,
+  landscape: false,
+  pageRanges: '',
+  format: '',
+  width: '',
+  height: '',
+  margin: defaultMargin,
+  marginTop: '',
+  marginRight: '',
+  marginBottom: '',
+  marginLeft: '',
+  preferCSSPageSize: true
+}
+module.exports.defaultOption = defaultOption
+
 /**
  * PdfOption more detail
  * https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#pagepdfoptions
  *
  */
 module.exports.PdfOption = class {
-  defaultOption() {
+  constructor(options) {
     /**
      Since this application does not save the generated PDF to the disk,
      'path' should not be set.
     */
-    return {
-      scale: 1,
-      displayHeaderFooter: false,
-      headerTemplate: '',
-      footerTemplate: '',
-      printBackground: true,
-      landscape: false,
-      pageRanges: '',
-      format: '',
-      width: '',
-      height: '',
-      margin: defaultMargin,
-      marginTop: '',
-      marginRight: '',
-      marginBottom: '',
-      marginLeft: '',
-      preferCSSPageSize: true
-    }
-  }
-
-  constructor(options) {
-    options = mergeOptions(this.defaultOption(), options)
+    options = mergeOptions(defaultOption, options)
     this.scale = options.scale
     this.displayHeaderFooter = options.displayHeaderFooter
     this.headerTemplate = options.headerTemplate

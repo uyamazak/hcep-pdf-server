@@ -20,7 +20,9 @@
   },
   "scripts": {
     "start": "node app/pdf-server.js",
-    "test": "mocha"
+    "test": "mocha",
+    "lint": "eslint *",
+    "fix": "eslint --fix *"
   },
   "repository": {
     "type": "git",

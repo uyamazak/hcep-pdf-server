@@ -7,7 +7,7 @@ console.log('TAREGT_URL:', TAREGT_URL)
 console.log('HTML_TEST_STRINGS:', HTML_TEST_STRINGS)
 
 describe('requests routes', (done) => {
-  req = request(SERVER_URL);
+  req = request(SERVER_URL)
   it('Health Check GET /hc', async () => {
     await req.get('/hc')
       .expect(200, 'ok', done)

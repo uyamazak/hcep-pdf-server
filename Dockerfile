@@ -35,13 +35,14 @@ ENV HCEP_USE_CHROMIUM true
 #HCEP_MY_PDF_OPTION_PRESETS_FILE_PATH="./my-pdf-option-presets"
 
 ENV NODE_ENV production
+
 RUN mkdir /hcep/
 COPY app /hcep/app
 COPY package.json /hcep/
 WORKDIR /hcep/
 
 RUN npm install -u npm && \
-    npm install -g mocha && \
+    npm install -g mocha eslint && \
     npm install
 
 RUN chmod -R 777 /hcep/app

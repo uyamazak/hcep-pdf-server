@@ -4,7 +4,7 @@ module.exports.expressApp = (page) => {
   const express = require('express')
   const morgan = require('morgan')
   const timeout = require('connect-timeout')
-  const { getPdfOption } = require('./pdf-option/get-pdf-option')
+  const { getPdfOption } = require('./pdf-option/pdf-option-lib')
   const appTimeoutMsec = process.env.HCEP_APP_TIMEOUT_MSEC || 10000
   const pageTimeoutMsec = process.env.HCEP_PAGE_TIMEOUT_MSEC || 10000
   const listenPort = process.env.HCEP_PORT || 8000
@@ -50,29 +50,29 @@ module.exports.expressApp = (page) => {
         res.status(400)
         res.end('get parameter "url" is not set')
         return
-      }
-      try {
-        await page.goto(
-          url, {
-            timeout: pageTimeoutMsec,
-            waitUntil: ['load', 'domcontentloaded']
-          }
-        )
-        // Wait for web font loading completion
-        await page.evaluateHandle('document.fonts.ready')
-        const pdfOption = getPdfOption(req.query.pdf_option)
-        debug('pdfOption', pdfOption)
-        const buff = await page.pdf(pdfOption)
-        res.status(200)
-        res.contentType('application/pdf')
-        res.send(buff)
-        res.end()
-      } catch (e) {
-        console.error(e)
-        res.contentType('text/plain')
-        res.status(500)
-        res.end()
-        handlePageError(e, url)
+      } else {
+        try {
+          await page.goto(
+            url, {
+              timeout: pageTimeoutMsec,
+              waitUntil: ['load', 'domcontentloaded']
+            }
+          )
+          // Wait for web font loading completion
+          await page.evaluateHandle('document.fonts.ready')
+          const pdfOption = getPdfOption(req.query.pdf_option)
+          debug('pdfOption', pdfOption)
+          const buff = await page.pdf(pdfOption)
+          res.status(200)
+          res.contentType('application/pdf')
+          res.send(buff)
+          res.end()
+        } catch (e) {
+          res.status(500)
+          res.contentType('text/plain')
+          res.end()
+          handlePageError(e, url)
+        }
       }
     })
     /**
@@ -88,24 +88,24 @@ module.exports.expressApp = (page) => {
         res.status(400)
         res.contentType('text/plain')
         res.end('post parameter "html" is not set')
-        return
-      }
-      try {
-        await page.setContent(html)
-        // Wait for web font loading completion
-        await page.evaluateHandle('document.fonts.ready')
-        const pdfOption = getPdfOption(req.body.pdf_option)
-        debug('pdfOption', pdfOption)
-        const buff = await page.pdf(pdfOption)
-        res.status(200)
-        res.contentType('application/pdf')
-        res.send(buff)
-        res.end()
-      } catch (e) {
-        res.contentType('text/plain')
-        res.status(500)
-        res.end()
-        handlePageError(e, html)
+      } else {
+        try {
+          await page.setContent(html)
+          // Wait for web font loading completion
+          await page.evaluateHandle('document.fonts.ready')
+          const pdfOption = getPdfOption(req.body.pdf_option)
+          debug('pdfOption', pdfOption)
+          const buff = await page.pdf(pdfOption)
+          res.status(200)
+          res.contentType('application/pdf')
+          res.send(buff)
+          res.end()
+        } catch (e) {
+          res.status(500)
+          res.contentType('text/plain')
+          res.end()
+          handlePageError(e, html)
+        }
       }
     })
 
@@ -122,27 +122,27 @@ module.exports.expressApp = (page) => {
         res.status(400)
         res.contentType('text/plain')
         res.end('get parameter "url" is not set')
-        return
-      }
-      try {
-        await page.goto(
-          url, {
-            timeout: pageTimeoutMsec,
-            waitUntil: ['load', 'domcontentloaded']
-          }
-        )
-        const buff = await page.screenshot({
-          fullPage: true
-        })
-        res.status(200)
-        res.contentType('image/png')
-        res.send(buff)
-        res.end()
-      } catch (e) {
-        console.error(e)
-        res.contentType('text/plain')
-        res.status(500)
-        res.end()
+      } else {
+        try {
+          await page.goto(
+            url, {
+              timeout: pageTimeoutMsec,
+              waitUntil: ['load', 'domcontentloaded']
+            }
+          )
+          const buff = await page.screenshot({
+            fullPage: true
+          })
+          res.status(200)
+          res.contentType('image/png')
+          res.send(buff)
+          res.end()
+        } catch (e) {
+          console.error(e)
+          res.status(500)
+          res.contentType('text/plain')
+          res.end()
+        }
       }
     })
     /**
@@ -157,20 +157,21 @@ module.exports.expressApp = (page) => {
         await res.status(400)
         res.end('post parameter "html" is not set')
         return
-      }
-      try {
-        await page.setContent(html)
-        const buff = await page.screenshot({
-          fullPage: true
-        })
-        res.status(200)
-        res.contentType('image/png')
-        res.send(buff)
-        res.end()
-      } catch (e) {
-        console.error(e)
-        res.status(500)
-        res.end()
+      } else {
+        try {
+          await page.setContent(html)
+          const buff = await page.screenshot({
+            fullPage: true
+          })
+          res.status(200)
+          res.contentType('image/png')
+          res.send(buff)
+          res.end()
+        } catch (e) {
+          console.error(e)
+          res.status(500)
+          res.end()
+        }
       }
     })
 
