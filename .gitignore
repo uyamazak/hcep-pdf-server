@@ -3,4 +3,3 @@ fonts/*
 !fonts/empty
 !fonts/fonts.conf
 *.swp
-app/my-pdf-options.js
