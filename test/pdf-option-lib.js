@@ -1,16 +1,16 @@
-const { getPdfOption, loadMyPdfOptionPresets, pdfOptionPresets } = require('../app/pdf-option/pdf-option-lib')
+const { getPdfOption, loadMyPdfOptionPresets } = require('../app/pdf-option/pdf-option-lib')
 const assert = require('assert')
 
 describe('default pdf options', done => {
-  const defaultOption = getPdfOption()
   it('empty return default', done => {
-    const result = getPdfOption()
-    assert.deepStrictEqual(result, defaultOption)
+    const result = getPdfOption('')
+    assert.equal(result.format, 'A4')
+    assert.equal(result.displayHeaderFooter, false)
     done()
   })
-  it('if key not exists return default', done => {
+  it('not exists return default', done => {
     const result = getPdfOption('NotExistsPresetName')
-    assert.deepStrictEqual(result, defaultOption)
+    assert.equal(result.format, 'A4')
     done()
   })
   it('A4 in default presets', done => {
@@ -25,33 +25,20 @@ describe('default pdf options', done => {
   })
 })
 
-describe('"path" in option must be undefined not to save file', () => {
-  for (let key of Object.keys(pdfOptionPresets)) {
-    let result = getPdfOption(key)
-    it(`${key}`, done => {
-      assert.equal(result.path, undefined)
-      done()
-    })
-  }
-})
-
-
-describe('myPdfOptionPresets', () => {
-  const myPdfOptionPresets = loadMyPdfOptionPresets()
-  if (!myPdfOptionPresets) {
-    it.skip('skipped, myPdfOptionPresets is not set')
-    return
-  }
-  for (let optionKey of Object.keys(myPdfOptionPresets)) {
-    describe('optionKey exactry merged', () => {
-      let myPreset = myPdfOptionPresets[optionKey]
-      let result = getPdfOption(optionKey)
-      for(let itemKey of Object.keys(myPreset)){
-        it(`${itemKey} in ${optionKey} and getPdfOption's result`, done => {
-          assert.equal(myPreset[itemKey], result[itemKey])
+const myPdfOptionPresets = loadMyPdfOptionPresets()
+if (myPdfOptionPresets) {
+  describe('my pdf options', () => {
+    for (let presetName of Object.keys(myPdfOptionPresets)) {
+      let preset = myPdfOptionPresets[presetName]
+      let result = getPdfOption(presetName)
+      for(let itemKey of Object.keys(preset)){
+        it(`${itemKey} in ${presetName} is matched`, done => {
+          assert.equal(preset[itemKey], result[itemKey])
           done()
         })
       }
-    })
-  }
-})
+    }
+  })
+} else {
+  console.log('myPdfOptionPresets is not set')
+}

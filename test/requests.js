@@ -18,7 +18,7 @@ const sleep = (waitSeconds, someFunction) => {
 
 describe('requests routes', (done) => {
   let app
-  before(beforeDone =>{
+  before(beforeDone => {
     (async() => {
       const browserPage = await hcPage()
       app =  await expressApp(browserPage)
