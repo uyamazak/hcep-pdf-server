@@ -32,12 +32,10 @@ ENV HCEP_USE_CHROMIUM true
 #ENV CHROME_BINARY /usr/bin/google-chrome
 
 # If you want to extend pdf options, rename app/my-pdf-option-presets.js.sample to app/my-pdf-option-presets.js and activate this
-#HCEP_MY_PDF_OPTION_PRESETS_FILE_PATH="./my-pdf-option-presets"
-
+ENV HCEP_MY_PDF_OPTION_PRESETS_FILE_PATH="./my-pdf-option-presets"
 ENV NODE_ENV production
 
 RUN mkdir /hcep/
-COPY app /hcep/app
 COPY package.json /hcep/
 WORKDIR /hcep/
 
@@ -45,11 +43,14 @@ RUN npm install -u npm && \
     npm install -g mocha eslint && \
     npm install
 
+COPY app /hcep/app
+
 RUN chmod -R 777 /hcep/app
 
-EXPOSE 8000
-
+COPY test /hcep/test
+RUN mocha
 # RUN useradd chromeuser -s /bin/bash -m -u 10000
 # USER chromeuser
 
+EXPOSE 8000
 CMD ["npm", "start"]

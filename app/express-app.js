@@ -1,4 +1,4 @@
-module.exports.expressApp = (page) => {
+module.exports.expressApp = page => {
   const bodyParser = require('body-parser')
   const debug = require('debug')('hcepPdfServer:expressApp')
   const express = require('express')
@@ -25,9 +25,6 @@ module.exports.expressApp = (page) => {
     limit: maxRquestSize
   }))
   app.use(timeout(appTimeoutMsec))
-  app.listen(listenPort, () => {
-    console.log('Listening on:', listenPort)
-  })
 
   function handlePageError(e, option) {
     console.error('Page error occurred! process.exit()')
@@ -183,5 +180,9 @@ module.exports.expressApp = (page) => {
     res.status(200)
     res.end('ok')
   })
-  return app
+
+  const appServer = app.listen(listenPort, () => {
+    console.log('Listening on:', listenPort)
+  })
+  return appServer
 }

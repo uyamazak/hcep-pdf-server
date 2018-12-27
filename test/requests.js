@@ -1,4 +1,6 @@
 const request = require('supertest')
+const { hcPage } = require('../app/hc-page')
+const { expressApp } = require('../app/express-app')
 const SERVER_URL = process.env.HCEP_TEST_SERVER_URL || 'http://localhost:8000'
 const TAREGT_URL = process.env.HCEP_TEST_TAREGT_URL || 'https://www.google.com'
 const HTML_TEST_STRINGS = '<html>ok</html>'
@@ -6,8 +8,35 @@ console.log('SERVER_URL:', SERVER_URL)
 console.log('TAREGT_URL:', TAREGT_URL)
 console.log('HTML_TEST_STRINGS:', HTML_TEST_STRINGS)
 
+const sleep = (waitSeconds, someFunction) => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(someFunction())
+    }, waitSeconds)
+  })
+}
+
 describe('requests routes', (done) => {
-  req = request(SERVER_URL)
+  let app
+  before(beforeDone =>{
+    (async() => {
+      const browserPage = await hcPage()
+      app =  await expressApp(browserPage)
+      beforeDone()
+    })()
+  })
+  after(afterDone => {
+    (async ()=> {
+      await app.close()
+      sleep(5000, () => {
+        console.log('process.exit!')
+        process.exit()
+      })
+      afterDone()
+    })()
+  })
+
+  const req = request(SERVER_URL)
   it('Health Check GET /hc', async () => {
     await req.get('/hc')
       .expect(200, 'ok', done)

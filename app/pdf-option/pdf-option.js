@@ -29,8 +29,9 @@ module.exports.PdfOption = class {
   constructor(options) {
     /**
      Since this application does not save the generated PDF to the disk,
-     'path' should not be set.
+     "path" should not be set.
     */
+    if(!options) options = {}
     options = mergeOptions(defaultOption, options)
     this.scale = options.scale
     this.displayHeaderFooter = options.displayHeaderFooter
