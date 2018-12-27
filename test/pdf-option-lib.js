@@ -1,7 +1,7 @@
 const { getPdfOption, loadMyPdfOptionPresets } = require('../app/pdf-option/pdf-option-lib')
 const assert = require('assert')
 
-describe('default pdf options', done => {
+describe('default pdf options', () => {
   it('empty return default', done => {
     const result = getPdfOption('')
     assert.equal(result.format, 'A4')
