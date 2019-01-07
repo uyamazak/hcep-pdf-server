@@ -18,6 +18,7 @@ const sleep = (waitSeconds, someFunction) => {
 
 describe('requests routes', () => {
   let app
+
   before(beforeDone => {
     (async() => {
       const browserPage = await hcPage()
@@ -25,11 +26,12 @@ describe('requests routes', () => {
       beforeDone()
     })()
   })
+
   after(afterDone => {
     (async ()=> {
       await app.close()
       sleep(5000, () => {
-        console.log('process.exit!')
+        console.log('complete! process.exit()')
         process.exit()
       })
       afterDone()
@@ -37,30 +39,36 @@ describe('requests routes', () => {
   })
 
   const req = request(SERVER_URL)
+
   it('Health Check GET /hc', async () => {
     await req.get('/hc')
       .expect(200, 'ok')
   })
+
   it('GET / with no url', async () => {
     await req.get('/')
       .expect(400, 'get parameter "url" is not set')
   })
+
   it('GET / with url ' + TAREGT_URL, async () => {
     await req.get('/?url=' + TAREGT_URL)
       .expect('Content-Type', 'application/pdf')
       .expect(200)
   })
+
   it('POST / html=' + HTML_TEST_STRINGS, async () => {
     await req.post('/')
       .send('html=' + encodeURI(HTML_TEST_STRINGS))
       .expect('Content-Type', 'application/pdf')
       .expect(200)
   })
+
   it('GET /screenshot with url ' + TAREGT_URL, async () => {
     await req.get('/screenshot?url=' + TAREGT_URL)
       .expect('Content-Type', 'image/png')
       .expect(200)
   })
+  
   it('POST /screenshot html=' + HTML_TEST_STRINGS, async () => {
     await req.post('/screenshot')
       .send('html=' + encodeURI(HTML_TEST_STRINGS))

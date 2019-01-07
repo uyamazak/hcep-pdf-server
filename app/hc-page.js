@@ -18,18 +18,7 @@ module.exports.hcPage = async () => {
   // launch browser and page only once
   const browser = await puppeteer.launch(launchOptions)
   const chromeVersion = await browser.version()
-  const page = await browser.newPage()
   debug('chromeVersion:', chromeVersion)
-  /**
-   * Close browser with exit signal.
-   */
-  const exitHandler = async () => {
-    debug('process exit with SIGINT')
-    await browser.close()
-    debug('complete browser.close()')
-    await process.exit()
-  }
-  process.on('SIGINT', exitHandler)
-  process.on('SIGTERM', exitHandler)
+  const page = await browser.newPage()
   return page
 }
