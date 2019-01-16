@@ -1,16 +1,18 @@
-const { getPdfOption, loadMyPdfOptionPresets } = require('../app/pdf-option/pdf-option-lib')
+const {getPdfOption,
+       loadMyPdfOptionPresets,
+       defaultPdfOptionKey} = require('../app/pdf-option/pdf-option-lib')
 const assert = require('assert')
 
 describe('default pdf options', () => {
   it('empty return default', done => {
     const result = getPdfOption('')
-    assert.equal(result.format, 'A4')
+    assert.equal(result.format, defaultPdfOptionKey)
     assert.equal(result.displayHeaderFooter, false)
     done()
   })
   it('not exists return default', done => {
     const result = getPdfOption('NotExistsPresetName')
-    assert.equal(result.format, 'A4')
+    assert.equal(result.format, defaultPdfOptionKey)
     done()
   })
   it('A4 in default presets', done => {
@@ -27,11 +29,11 @@ describe('default pdf options', () => {
 
 const myPdfOptionPresets = loadMyPdfOptionPresets()
 if (myPdfOptionPresets) {
-  describe('my pdf options', () => {
-    for (let presetName of Object.keys(myPdfOptionPresets)) {
-      let preset = myPdfOptionPresets[presetName]
-      let result = getPdfOption(presetName)
-      for(let itemKey of Object.keys(preset)){
+  describe('my pdf options are correctly set', () => {
+    for (const presetName of Object.keys(myPdfOptionPresets)) {
+      const preset = myPdfOptionPresets[presetName]
+      const result = getPdfOption(presetName)
+      for(const itemKey of Object.keys(preset)){
         it(`${itemKey} in ${presetName} is matched`, done => {
           assert.equal(preset[itemKey], result[itemKey])
           done()

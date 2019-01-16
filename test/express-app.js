@@ -28,10 +28,15 @@ describe('requests routes', () => {
   })
 
   after(afterDone => {
+    /*
+    しばらくコネクションが残るため
+    expressのプロセスが終わらないので
+    テスト終了後、少し待って明示的に終了
+    */
     (async ()=> {
       await app.close()
       sleep(5000, () => {
-        console.log('complete! process.exit()')
+        console.log('testing express-app complete! process.exit()')
         process.exit()
       })
       afterDone()
@@ -68,7 +73,7 @@ describe('requests routes', () => {
       .expect('Content-Type', 'image/png')
       .expect(200)
   })
-  
+
   it('POST /screenshot html=' + HTML_TEST_STRINGS, async () => {
     await req.post('/screenshot')
       .send('html=' + encodeURI(HTML_TEST_STRINGS))

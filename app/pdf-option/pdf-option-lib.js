@@ -41,3 +41,4 @@ module.exports.loadMyPdfOptionPresets = loadMyPdfOptionPresets
 module.exports.pdfOptionPresets = pdfOptionPresets
 module.exports.pdfOptionExists = pdfOptionExists
 module.exports.getPdfOption = getPdfOption
+module.exports.defaultPdfOptionKey = defaultPdfOptionKey
