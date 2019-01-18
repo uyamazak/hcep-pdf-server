@@ -94,25 +94,47 @@ OK
 ```
 
 ## Test
-Execute mocha in the container run with the above command.
+Execute mocha in the container run with the below command.
 
 ```
-% sudo docker exec varuna-hcep-pdf-server mocha
+% sudo docker exec -e DEBUG="" varuna-hcep-pdf-server mocha
 SERVER_URL: http://localhost:8000
 TAREGT_URL: https://www.google.com
 HTML_TEST_STRINGS: <html>ok</html>
 
 
   requests routes
+env: development
+Listening on: 8000
+GET /hc 200 0.987 ms - -
     ✓ Health Check GET /hc
+GET / 400 0.188 ms - -
     ✓ GET / with no url
-    ✓ GET / with url https://www.google.com (262ms)
-    ✓ POST / html=<html>ok</html>
-    ✓ GET /screenshot with url https://www.google.com (245ms)
-    ✓ POST /screenshot html=<html>ok</html> (82ms)
+GET /?url=https://www.google.com 200 798.680 ms - 76794
+    ✓ GET / with url https://www.google.com (801ms)
+POST / 200 104.470 ms - 8374
+    ✓ POST / html=<html>ok</html> (106ms)
+GET /screenshot?url=https://www.google.com 200 354.910 ms - 27974
+    ✓ GET /screenshot with url https://www.google.com (356ms)
+POST /screenshot 200 1911.266 ms - 3732
+    ✓ POST /screenshot html=<html>ok</html> (1912ms)
+
+  default pdf options
+    ✓ empty return default
+    ✓ not exists return default
+    ✓ A4 in default presets
+    ✓ A3 in default presets
+
+  my pdf options are correctly set
+    ✓ format in A4ShowPageNumberFooter is matched
+    ✓ displayHeaderFooter in A4ShowPageNumberFooter is matched
+    ✓ headerTemplate in A4ShowPageNumberFooter is matched
+    ✓ footerTemplate in A4ShowPageNumberFooter is matched
 
 
-  6 passing (621ms)
+  14 passing (3s)
+
+testing express-app complete! process.exit()
 
 ```
 
@@ -147,7 +169,7 @@ Timeout milliseconds of the express app
 default: 30000
 
 #### HCEP_MAX_REQUEST_SIZE
-default: 10mb
+default: 10MB
 
 
 ### PDF settings
