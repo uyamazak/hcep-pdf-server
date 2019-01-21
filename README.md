@@ -125,7 +125,7 @@ POST /screenshot 200 1911.266 ms - 3732
     ✓ A4 in default presets
     ✓ A3 in default presets
 
-  my pdf options are correctly set
+  myPdfOptionPresets set
     ✓ format in A4ShowPageNumberFooter is matched
     ✓ displayHeaderFooter in A4ShowPageNumberFooter is matched
     ✓ headerTemplate in A4ShowPageNumberFooter is matched
