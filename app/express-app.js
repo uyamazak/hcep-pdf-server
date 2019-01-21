@@ -15,7 +15,7 @@ module.exports.expressApp = page => {
   const env = app.get('env')
   console.log('env:', env)
   if (env == 'production') {
-    app.use(morgan())
+    app.use(morgan('combined'))
   } else {
     app.use(morgan('dev'))
   }
