@@ -29,7 +29,7 @@ describe('default pdf options', () => {
 
 const myPdfOptionPresets = loadMyPdfOptionPresets()
 if (myPdfOptionPresets) {
-  describe('my pdf options are correctly set', () => {
+  describe('myPdfOptionPresets set', () => {
     for (const presetName of Object.keys(myPdfOptionPresets)) {
       const preset = myPdfOptionPresets[presetName]
       const result = getPdfOption(presetName)
