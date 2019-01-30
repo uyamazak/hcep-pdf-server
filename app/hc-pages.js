@@ -12,7 +12,10 @@ const generateLaunchOptions = () => {
   }
   return options
 }
-module.exports.hcPage = async () => {
+module.exports.hcPages = async (pagesNum) => {
+  if (!pagesNum) {
+    pagesNum = 1
+  }
   const puppeteer = require('puppeteer')
   const launchOptions = generateLaunchOptions()
   debug('launchOptions:', launchOptions)
@@ -20,6 +23,10 @@ module.exports.hcPage = async () => {
   const browser = await puppeteer.launch(launchOptions)
   const chromeVersion = await browser.version()
   debug('chromeVersion:', chromeVersion)
-  const page = await browser.newPage()
-  return page
+  const pages = []
+  for(let i=0; i < pagesNum; i++){
+    debug('page launched No.' + i)
+    pages.push(await browser.newPage())
+  }
+  return pages
 }

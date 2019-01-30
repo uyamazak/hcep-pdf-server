@@ -54,7 +54,7 @@ RUN chmod -R 777 /hcep/app
 # Test
 COPY test /hcep/test
 RUN mocha
-RUN rm -rf /hcep/test && npm uninstall -g mocha eslint
+# RUN rm -rf /hcep/test && npm uninstall -g mocha eslint
 
 EXPOSE 8000
 ENTRYPOINT ["dumb-init", "--"]

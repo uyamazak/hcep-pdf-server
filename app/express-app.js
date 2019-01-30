@@ -1,4 +1,15 @@
-module.exports.expressApp = page => {
+module.exports.expressApp = pages => {
+  const pagesNum = pages.length
+  console.log(`pages.length: ${pages.length}`)
+  let currentPageNo = 0
+  const getSinglePage = () => {
+    currentPageNo++;
+    if (currentPageNo >= pagesNum) {
+      currentPageNo = 0
+    }
+    debug(`pagesNum:${pagesNum} currentPageNo:${currentPageNo}`)
+    return pages[currentPageNo]
+  }
   const bodyParser = require('body-parser')
   const debug = require('debug')('hcepPdfServer:expressApp')
   const express = require('express')
@@ -48,6 +59,7 @@ module.exports.expressApp = page => {
         res.end('get parameter "url" is not set')
         return
       } else {
+        const page = getSinglePage()
         try {
           await page.goto(
             url, {
@@ -56,19 +68,21 @@ module.exports.expressApp = page => {
             }
           )
           // Wait for web font loading completion
-          await page.evaluateHandle('document.fonts.ready')
+          // await page.evaluateHandle('document.fonts.ready')
           const pdfOption = getPdfOption(req.query.pdf_option)
-          debug('pdfOption', pdfOption)
+          // debug('pdfOption', pdfOption)
           const buff = await page.pdf(pdfOption)
           res.status(200)
           res.contentType('application/pdf')
           res.send(buff)
           res.end()
+          return
         } catch (e) {
           res.status(500)
           res.contentType('text/plain')
           res.end()
           handlePageError(e, url)
+          return
         }
       }
     })
@@ -86,22 +100,25 @@ module.exports.expressApp = page => {
         res.contentType('text/plain')
         res.end('post parameter "html" is not set')
       } else {
+        const page = getSinglePage()
         try {
           await page.setContent(html)
           // Wait for web font loading completion
-          await page.evaluateHandle('document.fonts.ready')
+          // await page.evaluateHandle('document.fonts.ready')
           const pdfOption = getPdfOption(req.body.pdf_option)
-          debug('pdfOption', pdfOption)
+          // debug('pdfOption', pdfOption)
           const buff = await page.pdf(pdfOption)
           res.status(200)
           res.contentType('application/pdf')
           res.send(buff)
           res.end()
+          return
         } catch (e) {
           res.status(500)
           res.contentType('text/plain')
           res.end()
-          handlePageError(e, html)
+          handlePageError(e, 'html.length:' + html.length)
+          return
         }
       }
     })
@@ -120,6 +137,7 @@ module.exports.expressApp = page => {
         res.contentType('text/plain')
         res.end('get parameter "url" is not set')
       } else {
+        const page = getSinglePage()
         try {
           await page.goto(
             url, {
@@ -155,6 +173,7 @@ module.exports.expressApp = page => {
         res.end('post parameter "html" is not set')
         return
       } else {
+        const page = getSinglePage()
         try {
           await page.setContent(html)
           const buff = await page.screenshot({
