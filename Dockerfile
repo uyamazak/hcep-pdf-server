@@ -1,8 +1,11 @@
 FROM node:10-slim
-LABEL maintainer="yu_yamazaki@bizocean.co.jp"
+LABEL maintainer="yu.yamazaki85@gmail.com"
 
 # Update
-RUN apt-get update --fix-missing && apt-get -y upgrade
+RUN apt-get update --fix-missing \
+    && apt-get upgrade -y \
+    && apt-get install -y wget gnupg \
+    && apt-get clean
 
 # Locale settings (japanese)
 RUN apt-get install -y locales task-japanese \
@@ -17,6 +20,7 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
   && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
   && apt-get update \
   && apt-get install -y google-chrome-stable --no-install-recommends \
+  && apt-get clean \
   && rm -rf /var/lib/apt/lists/* \
   && rm -rf /src/*.deb
 
