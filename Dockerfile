@@ -4,7 +4,7 @@ LABEL maintainer="yu.yamazaki85@gmail.com"
 # Update
 RUN apt-get update --fix-missing \
     && apt-get upgrade -y \
-    && apt-get install -y wget gnupg \
+    && apt-get install -y wget gnupg libxss1 \
     && apt-get clean
 
 # Locale settings (japanese)
