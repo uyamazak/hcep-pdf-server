@@ -1,3 +1,11 @@
+
+
+# DEPRECATED
+This repository wiil be deprecated.
+
+Please use [hc-pdf-server](https://github.com/uyamazak/hc-pdf-server) instead.
+
+Since I hadn't been able to maintain it for a while, I completely rewrote it in TypeScript and changed the library and other things accordingly.
 # hcep-pdf-server
 
 Simple and fast PDF rendering server. Using Headless Chrome & Express & Puppeteer.
